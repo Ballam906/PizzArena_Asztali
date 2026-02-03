@@ -1,5 +1,5 @@
 ﻿PizzArena_AdminPanel
-1.0.0.0
+
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\App.xaml
 2-533389694
 
-11943013072
+91789490182
 198-1127337667
 AdminPanel.xaml;MainWindow.xaml;
 
-True
+False
 

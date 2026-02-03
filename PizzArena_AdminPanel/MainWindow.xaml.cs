@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using PizzArena_AdminPanel.API;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,24 @@ namespace PizzArena_AdminPanel
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var api = new ApiService();
+            var result = await api.Login(tbUsername.Text, pbPassword.Password);
+
+            if (result == null)
+            {
+                lError.Content = "Hibás felhasználónév vagy jelszó!";
+                return;
+            }
+
+            TokenStorage.Token = result.Token;
+
+            var admin = new AdminPanel();
+            admin.Show();
+            this.Close();
         }
     }
 }

@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PizzArena_AdminPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Bejelentkezés" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="PizzArena Admin Panel" FontSize="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
 
+        <StackPanel Grid.Row="1" Margin="20" >
+            <Label Content="Felhasználónév:" FontSize="20"></Label>
+            <TextBox x:Name="tbUsername" FontSize="20" Margin="10"  ></TextBox>
+            <Label Content="Jelszó:" FontSize="20"></Label>
+            <PasswordBox FontSize="20" x:Name="pbPassword" Margin="10" ></PasswordBox>
+            <Button Content="Bejelentkezés" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Click="Button_Click"></Button>
+            <Label x:Name="lError" Content="" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></Label>
+        </StackPanel>
+        
+        
     </Grid>
 </Window>
