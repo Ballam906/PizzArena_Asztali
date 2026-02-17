@@ -3,10 +3,115 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PizzArena_AdminPanel"
         mc:Ignorable="d"
-        Title="AdminPanel" Height="450" Width="800">
-    <Grid>
-        
+        Title="AdminPanel" Height="560" Width="1050"
+        Background="#FFF7F7F9">
+
+    <Window.Resources>
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="14"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="MinWidth" Value="86"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Background" Value="#FFE5E7EB"/>
+            <Setter Property="Foreground" Value="#FF111827"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="BorderBrush" Value="#33000000"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="37*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource Card}" Grid.RowSpan="2">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                    <TextBlock Text="Admin Panel" FontSize="22" FontWeight="SemiBold" Foreground="#FF111827"/>
+                </StackPanel>
+
+                <TabControl>
+                    <TabItem Header="ChefSpecial">
+                        
+                    </TabItem>
+                    <TabItem Header="GlobalSettings">
+                        
+                    </TabItem>
+                    <TabItem Header="Order">
+                        
+                    </TabItem>
+                    <TabItem Header="OrderItem">
+                        
+                    </TabItem>
+                    <TabItem Header="Restaurant">
+                        
+                    </TabItem>
+                    <TabItem Header="User">
+                        
+                    </TabItem>
+                    <TabItem Header="Category">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280"/>
+
+                            <DataGrid x:Name="CategoryGrid" Grid.Row="1"
+                                      SelectionChanged="CategoryGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                <TextBox x:Name="CategoryNameTextBox" Width="260" />
+
+                                <Button Content="Reload" Click="CategoryReload_Click"/>
+                                <Button Content="Add" Click="CategoryAdd_Click"/>
+                                <Button Content="Update" Click="CategoryUpdate_Click"/>
+                                <Button Content="Delete" Click="CategoryDelete_Click"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+            </DockPanel>
+        </Border>
     </Grid>
 </Window>

@@ -35,7 +35,7 @@ namespace PizzArena_AdminPanel
 
             TokenStorage.Token = result.Token;
 
-            var admin = new AdminPanel();
+            var admin = new AdminPanel(api);
             admin.Show();
             this.Close();
         }
