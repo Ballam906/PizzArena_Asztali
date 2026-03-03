@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="AdminPanel" Height="560" Width="1050"
+        Title="PizzAréna" Height="560" Width="1050"
         Background="#FFF7F7F9">
 
     <Window.Resources>
@@ -61,7 +61,8 @@
                     <TextBlock Text="Admin Panel" FontSize="22" FontWeight="SemiBold" Foreground="#FF111827"/>
                 </StackPanel>
 
-                <TabControl>
+                <TabControl TabStripPlacement="Left">
+                    
                     <TabItem Header="ChefSpecial">
                         
                     </TabItem>
@@ -69,19 +70,13 @@
                         
                     </TabItem>
                     <TabItem Header="Order">
-                        
+
                     </TabItem>
                     <TabItem Header="OrderItem">
                         
                     </TabItem>
                     <TabItem Header="Restaurant">
-                        
-                    </TabItem>
-                    <TabItem Header="User">
-                        
-                    </TabItem>
-                    <TabItem Header="Category">
-                        <Grid>
+                        <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -90,7 +85,128 @@
 
                             <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280"/>
 
-                            <DataGrid x:Name="CategoryGrid" Grid.Row="1"
+                            <DataGrid BorderThickness="0" x:Name="RestaurantGrid" Grid.Row="1"
+                                SelectionChanged="RestaurantGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding description}" Width="*"/>
+                                    <DataGridTextColumn Header="imageUrl" Binding="{Binding imageUrl}" Width="*"/>
+                                    <DataGridTextColumn Header="openingHours" Binding="{Binding openingHours}" Width="*"/>
+                                    <DataGridTextColumn Header="address" Binding="{Binding address}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <TextBox x:Name="RestaurantNameTextBox" Width="90" />
+                                    <TextBox x:Name="RestaurantDescriptionTextBox" Width="90" />
+                                    <TextBox x:Name="RestaurantimageUrlTextBox" Width="90" />
+                                    <TextBox x:Name="RestaurantopeningHoursTextBox" Width="90" />
+                                    <TextBox x:Name="RestaurantaddressTextBox" Width="90" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <Button Content="Reload" Click="RestaurantReload_Click"/>
+                                    <Button Content="Add" Click="RestaurantAdd_Click"/>
+                                    <Button Content="Update" Click="RestaurantUpdate_Click"/>
+                                    <Button Content="Delete" Click="RestaurantDelete_Click"/>
+                                </StackPanel>
+
+
+                            </StackPanel>
+
+                        </Grid>
+                    </TabItem>
+                    
+                    
+                    
+                    <TabItem Header="User">
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Users" Foreground="#FF6B7280"></TextBlock>
+
+                            <DataGrid BorderThickness="0" x:Name="UsersGrid" Grid.Row="1" SelectionChanged="UsersGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="250"/>
+                                    <DataGridTextColumn Header="UserName" Binding="{Binding userName}" Width="120"/>
+                                    <DataGridTextColumn Header="Email" Binding="{Binding email}" Width="150"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                <Label Content="Admin regisztrálás: (username,email,password)"></Label>
+                                <TextBox x:Name="UsernameTextBox" Width="90" />
+                                <TextBox x:Name="UserEmailTextbox" Width="90" />
+                                <TextBox x:Name="UserPasswordTextBox" Width="90" />
+
+                                <Button Content="Add" Click="UserAdd_Click"/>
+                                <Button Content="Reload" Click="UserReload_Click"/>
+                                <Button Content="Delete" Click="UserDelete_Click"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Product">
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Products" Foreground="#FF6B7280"></TextBlock>
+
+                            <DataGrid BorderThickness="0" x:Name="ProductGrid" Grid.Row="1" SelectionChanged="ProductGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"/>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="150"/>
+                                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
+                                    <DataGridTextColumn Header="IsAvailable" Binding="{Binding IsAvailable}" Width="80"/>
+                                    <DataGridTextColumn Header="Image_Url" Binding="{Binding Image_Url}" Width="80"/>
+                                    <DataGridTextColumn Header="CategoryId" Binding="{Binding CategoryId}" Width="80"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <TextBox x:Name="ProductNameTextBox" Width="90" />
+                                    <TextBox x:Name="ProductDescriptionTextBox" Width="90" />
+                                    <TextBox x:Name="ProductPriceTextBox" Width="90" />
+                                    <TextBox x:Name="ProductIsAvailableTextBox" Width="90" />
+                                    <TextBox x:Name="ProductImageUrlTextBox" Width="90" />
+                                    <TextBox x:Name="ProductCategoryIdTextBox" Width="90" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <Button Content="Reload" Click="ProductReload_Click"/>
+                                    <Button Content="Add" Click="ProductAdd_Click"/>
+                                    <Button Content="Update" Click="ProductyUpdate_Click"/>
+                                    <Button Content="Delete" Click="ProductDelete_Click"/>
+                                </StackPanel>
+
+                                
+                            </StackPanel>
+
+                        </Grid>
+                    </TabItem>
+                    
+                    <TabItem Header="Category">
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280"/>
+
+                            <DataGrid BorderThickness="0" x:Name="CategoryGrid" Grid.Row="1"
                                       SelectionChanged="CategoryGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>

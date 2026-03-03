@@ -11,6 +11,5 @@ namespace PizzArena_AdminPanel.API.Category
         public int Id { get; set; }
         public string Name { get; set; } = "";
 
-        public object? Products { get; set; }
     }
 }
