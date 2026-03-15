@@ -1,5 +1,6 @@
 ﻿using PizzArena_AdminPanel.API;
 using PizzArena_AdminPanel.API.Category;
+using PizzArena_AdminPanel.API.Order;
 using PizzArena_AdminPanel.API.Product;
 using PizzArena_AdminPanel.API.Restaurant;
 using PizzArena_AdminPanel.API.User;
@@ -31,6 +32,7 @@ namespace PizzArena_AdminPanel
         private readonly ObservableCollection<ProductDto> _products = new();
         private readonly ObservableCollection<UserDto> _users = new();
         private readonly ObservableCollection<RestaurantDto> _restaurants = new();
+        private readonly ObservableCollection<OrderDto> _orders = new();
 
         public AdminPanel(ApiService api)
         {
@@ -41,12 +43,27 @@ namespace PizzArena_AdminPanel
             ProductGrid.ItemsSource = _products;
             UsersGrid.ItemsSource = _users;
             RestaurantGrid.ItemsSource = _restaurants;
+            OrderGrid.ItemsSource = _orders;
 
             Loaded += async (_, __) => await LoadCategories();
             Loaded += async (_, __) => await LoadProducts();
             Loaded += async (_, __) => await LoadUsers();
             Loaded += async (_, __) => await LoadRestaurants();
+            Loaded += async (_, __) => await LoadOrders();
         }
+
+        private async Task LoadOrders()
+        {
+            _orders.Clear();
+            var list = await _api.GetAllOrder();
+
+            foreach (var item in list)
+            {
+                _orders.Add(item);
+            }
+        }
+
+
         private async Task LoadRestaurants()
         {
             _restaurants.Clear();
@@ -419,7 +436,14 @@ namespace PizzArena_AdminPanel
 
         private void RestaurantGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (RestaurantGrid.SelectedItem is RestaurantDto selected)
+            {
+                RestaurantNameTextBox.Text = selected.name;
+                RestaurantDescriptionTextBox.Text = selected.description;
+                RestaurantimageUrlTextBox.Text = selected.imageUrl;
+                RestaurantopeningHoursTextBox.Text = selected.openingHours;
+                RestaurantaddressTextBox.Text = selected.address;
+            }
         }
 
         private async void RestaurantReload_Click(object sender, RoutedEventArgs e)
@@ -427,19 +451,258 @@ namespace PizzArena_AdminPanel
             await LoadRestaurants();
         }
 
-        private void RestaurantAdd_Click(object sender, RoutedEventArgs e)
+        private async void RestaurantAdd_Click(object sender, RoutedEventArgs e)
         {
+            var name = RestaurantNameTextBox.Text.Trim();
+            var description = RestaurantDescriptionTextBox.Text.Trim();
+            var imageurl = RestaurantimageUrlTextBox.Text.Trim();
+            var openinghours = RestaurantopeningHoursTextBox.Text.Trim();
+            var address = RestaurantaddressTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Adj meg egy nevet.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                MessageBox.Show("Adj meg egy leirást.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(imageurl))
+            {
+                MessageBox.Show("Adj meg egy kép url-t.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(openinghours))
+            {
+                MessageBox.Show("Adj meg egy nyitvatartási időt.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                MessageBox.Show("Adj meg egy címet.");
+                return;
+            }
 
+
+            var ok = await _api.CreateRestaurant(name, description, imageurl,openinghours,address);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült létrehozni.");
+                return;
+            }
+
+            RestaurantNameTextBox.Clear();
+            RestaurantDescriptionTextBox.Clear();
+            RestaurantimageUrlTextBox.Clear();
+            RestaurantopeningHoursTextBox.Clear();
+            RestaurantaddressTextBox.Clear();
+            await LoadRestaurants();
         }
 
-        private void RestaurantUpdate_Click(object sender, RoutedEventArgs e)
+        private async void RestaurantUpdate_Click(object sender, RoutedEventArgs e)
         {
+            if (RestaurantGrid.SelectedItem is not RestaurantDto selected)
+            {
+                MessageBox.Show("Válassz ki egy éttermet.");
+                return;
+            }
 
+            var name = RestaurantNameTextBox.Text.Trim();
+            var description = RestaurantDescriptionTextBox.Text.Trim();
+            var imageurl = RestaurantimageUrlTextBox.Text.Trim();
+            var openinghours = RestaurantopeningHoursTextBox.Text.Trim();
+            var address = RestaurantaddressTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Adj meg egy nevet.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                MessageBox.Show("Adj meg egy leirást.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(imageurl))
+            {
+                MessageBox.Show("Adj meg egy kép url-t.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(openinghours))
+            {
+                MessageBox.Show("Adj meg egy nyitvatartási időt.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                MessageBox.Show("Adj meg egy címet.");
+                return;
+            }
+
+            var ok = await _api.UpdateRestaurant(selected.Id, name, description, imageurl,openinghours,address);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült módosítani.");
+                return;
+            }
+
+            await LoadRestaurants();
         }
 
-        private void RestaurantDelete_Click(object sender, RoutedEventArgs e)
+        private async void RestaurantDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (RestaurantGrid.SelectedItem is not RestaurantDto selected)
+            {
+                MessageBox.Show("Válassz ki egy éttermet.");
+                return;
+            }
 
+            var confirm = MessageBox.Show(
+                $"Biztos törlöd? (Id={selected.Id}, Name={selected.name})",
+                "Törlés",
+                MessageBoxButton.YesNo
+            );
+
+            if (confirm != MessageBoxResult.Yes)
+                return;
+
+            var ok = await _api.DeleteRestaurant(selected.Id);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült törölni.");
+                return;
+            }
+
+            RestaurantNameTextBox.Clear();
+            RestaurantDescriptionTextBox.Clear();
+            RestaurantimageUrlTextBox.Clear();
+            RestaurantopeningHoursTextBox.Clear();
+            RestaurantaddressTextBox.Clear();
+            await LoadRestaurants();
+        }
+
+        //order
+
+        private void OrderGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (OrderGrid.SelectedItem is OrderDto selected)
+            {
+                OrderNameTextBox.Text = selected.CustomerName;
+                OrderEmailTextBox.Text = selected.CustomerEmail;
+                OrderPhoneTextBox.Text = selected.CustomerPhone;
+                OrderPostalCodeTextBox.Text = selected.PostalCode;
+                OrderCityTextBox.Text = selected.City;
+                OrderStreetTextBox.Text = selected.Street;
+                OrderOtherTextBox.Text = selected.Other;
+                OrderUserIdTextBox.Text = selected.User_Id;
+            }
+        }
+
+        private async void OrderReload_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadOrders();
+        }
+
+        private async void OrderUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrderGrid.SelectedItem is not OrderDto selected)
+            {
+                MessageBox.Show("Válassz ki egy rendelést.");
+                return;
+            }
+
+            var name = OrderNameTextBox.Text.Trim();
+            var email = OrderEmailTextBox.Text.Trim();
+            var phone = OrderPhoneTextBox.Text.Trim();
+            var postalcode = OrderPostalCodeTextBox.Text.Trim();
+            var city = OrderCityTextBox.Text.Trim();
+            var street = OrderStreetTextBox.Text.Trim();
+            var other = OrderOtherTextBox.Text.Trim();
+            var userid = OrderUserIdTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Adj meg egy nevet.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("Adj meg egy email-t.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(phone))
+            {
+                MessageBox.Show("Adj meg egy telefonszámot.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(postalcode))
+            {
+                MessageBox.Show("Adj meg egy irányítószámot.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(city))
+            {
+                MessageBox.Show("Adj meg egy várost.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(street))
+            {
+                MessageBox.Show("Adj meg egy utcát.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(other))
+            {
+                MessageBox.Show("Add meg a szállítási cím kiegészítését is.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(userid))
+            {
+                MessageBox.Show("Adj meg egy fiókot a rendeléshez.");
+                return;
+            }
+
+            var ok = await _api.UpdateOrder(selected.Id, name,email,phone,postalcode,city,street,other,userid);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült módosítani.");
+                return;
+            }
+
+            await LoadOrders();
+        }
+
+        private async void OrderDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrderGrid.SelectedItem is not OrderDto selected)
+            {
+                MessageBox.Show("Válassz ki egy rendelést.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"Biztos törlöd? (Id={selected.Id}, Name={selected.CustomerName})",
+                "Törlés",
+                MessageBoxButton.YesNo
+            );
+
+            if (confirm != MessageBoxResult.Yes)
+                return;
+
+            var ok = await _api.DeleteOrder(selected.Id);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült törölni.");
+                return;
+            }
+
+            OrderNameTextBox.Clear();
+            OrderEmailTextBox.Clear();
+            OrderPhoneTextBox.Clear();
+            OrderPostalCodeTextBox.Clear();
+            OrderCityTextBox.Clear();
+            OrderStreetTextBox.Clear();
+            OrderOtherTextBox.Clear();
+            OrderUserIdTextBox.Clear();
+            await LoadOrders();
         }
     }
 }

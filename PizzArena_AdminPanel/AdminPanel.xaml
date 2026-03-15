@@ -67,11 +67,59 @@
                         
                     </TabItem>
                     <TabItem Header="GlobalSettings">
-                        
-                    </TabItem>
-                    <TabItem Header="Order">
 
                     </TabItem>
+
+
+                    <TabItem Header="Order">
+
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Orders" Foreground="#FF6B7280"/>
+
+                            <DataGrid BorderThickness="0" x:Name="OrderGrid" Grid.Row="1"
+                                    SelectionChanged="OrderGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
+                                    <DataGridTextColumn Header="CustomerName" Binding="{Binding CustomerName}" Width="*"/>
+                                    <DataGridTextColumn Header="CustomerEmail" Binding="{Binding CustomerEmail}" Width="*"/>
+                                    <DataGridTextColumn Header="CustomerPhone" Binding="{Binding CustomerPhone}" Width="*"/>
+                                    <DataGridTextColumn Header="PostalCode" Binding="{Binding PostalCode}" Width="*"/>
+                                    <DataGridTextColumn Header="User_Id" Binding="{Binding User_Id}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <TextBox x:Name="OrderNameTextBox" Width="90" />
+                                    <TextBox x:Name="OrderEmailTextBox" Width="90" />
+                                    <TextBox x:Name="OrderPhoneTextBox" Width="90" />
+                                    <TextBox x:Name="OrderPostalCodeTextBox" Width="90" />
+                                    <TextBox x:Name="OrderCityTextBox" Width="90" />
+                                    <TextBox x:Name="OrderStreetTextBox" Width="90" />
+                                    <TextBox x:Name="OrderOtherTextBox" Width="90" />
+                                    <TextBox x:Name="OrderUserIdTextBox" Width="90" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <Button Content="Reload" Click="OrderReload_Click"/>
+                                    <Button Content="Update" Click="OrderUpdate_Click"/>
+                                    <Button Content="Delete" Click="OrderDelete_Click"/>
+                                </StackPanel>
+
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </TabItem>
+                    
+                    
+                    
                     <TabItem Header="OrderItem">
                         
                     </TabItem>

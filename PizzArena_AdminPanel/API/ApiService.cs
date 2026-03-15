@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using PizzArena_AdminPanel.API.Product;
 using PizzArena_AdminPanel.API.User;
 using PizzArena_AdminPanel.API.Restaurant;
+using PizzArena_AdminPanel.API.Order;
 
 
 namespace PizzArena_AdminPanel.API
@@ -221,6 +222,116 @@ namespace PizzArena_AdminPanel.API
 
             var wrapper = JsonSerializer.Deserialize<ApiResponse<List<RestaurantDto>>>(body, _jsonOptions);
             return wrapper?.Result;
+        }
+
+
+        public async Task<RestaurantDto?> GetRestaurantById(int id)
+        {
+            var response = await _client.GetAsync($"api/Restaurant/GetById?id={id}");
+            var body = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var wrapper = JsonSerializer.Deserialize<ApiResponse<RestaurantDto>>(body, _jsonOptions);
+            return wrapper?.Result;
+        }
+
+        public async Task<bool> CreateRestaurant(string name, string description, string imageUrl, string openingHours, string address)
+        {
+            var data = new
+            {
+                Name = name,
+                Description = description,
+                ImageUrl = imageUrl,
+                OpeningHours = openingHours,
+                Address = address
+            };
+
+
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("api/Restaurant", content);
+            return response.IsSuccessStatusCode;
+        }
+
+
+        public async Task<bool> UpdateRestaurant(int id, string name, string description, string imageUrl, string openingHours, string address)
+        {
+            var data = new
+            {
+                Name = name,
+                Description = description,
+                ImageUrl = imageUrl,
+                OpeningHours = openingHours,
+                Address = address
+            }; ;
+
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"api/Restaurant?id={id}", content);
+            return response.IsSuccessStatusCode;
+        }
+
+
+        public async Task<bool> DeleteRestaurant(int id)
+        {
+            var response = await _client.DeleteAsync($"api/Restaurant?id={id}");
+            return response.IsSuccessStatusCode;
+        }
+
+        //order
+
+        public async Task<List<OrderDto>> GetAllOrder()
+        {
+            var response = await _client.GetAsync("api/Order");
+            var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode) return new List<OrderDto>();
+
+            //var wrapper = JsonSerializer.Deserialize<ApiResponse<List<OrderDto>>>(body, _jsonOptions);
+            //return wrapper?.Result;
+            var wrapper = JsonSerializer.Deserialize<List<OrderDto>>(body, _jsonOptions);
+            return wrapper;
+        }
+
+        public async Task<OrderDto?> GetOrderById(int id)
+        {
+            var response = await _client.GetAsync($"api/Order/GetById?id={id}");
+            var body = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var wrapper = JsonSerializer.Deserialize<ApiResponse<OrderDto>>(body, _jsonOptions);
+            return wrapper?.Result;
+        }
+
+        public async Task<bool> UpdateOrder(int id, string customername, string customeremail, string customerphone, string postalcode, string ccity,string cstreet,string cother, string cuserid)
+        {
+            var data = new
+            {
+                customerName = customername,
+                customerEmail = customeremail,
+                customerPhone = customerphone,
+                postalCode = postalcode,
+                city = ccity,
+                street = cstreet,
+                other = cother,
+                userid = cuserid
+            }; ;
+
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"api/Order?id={id}", content);
+            return response.IsSuccessStatusCode;
+        }
+
+
+        public async Task<bool> DeleteOrder(int id)
+        {
+            var response = await _client.DeleteAsync($"api/Order?id={id}");
+            return response.IsSuccessStatusCode;
         }
     }
 }

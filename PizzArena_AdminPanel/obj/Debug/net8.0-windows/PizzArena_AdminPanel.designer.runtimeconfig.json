@@ -12,12 +12,11 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\autowolf\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\autowolf\\.nuget\\packages",
+      "C:\\Users\\AutoWolf\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\AutoWolf\\.nuget\\packages",
       "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {
-      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true,
       "CSWINRT_USE_WINDOWS_UI_XAML_PROJECTIONS": false,
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
     }
