@@ -5,20 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PizzArena_AdminPanel"
         mc:Ignorable="d"
-        Title="PizzAréna" Height="450" Width="800">
+        
+        Title="PizzAréna" Height="450" Width="450">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="MinWidth" Value="86"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Background" Value="#FFE5E7EB"/>
+            <Setter Property="Foreground" Value="#FF111827"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="PizzArena Admin Panel" FontSize="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+        <Label Grid.Row="0" FontFamily="Times New Roman" Content="PizzAréna Admin Panel" FontSize="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
 
         <StackPanel Grid.Row="1" Margin="20" >
-            <Label Content="Felhasználónév:" FontSize="20"></Label>
-            <TextBox x:Name="tbUsername" FontSize="20" Margin="10"  ></TextBox>
-            <Label Content="Jelszó:" FontSize="20"></Label>
-            <PasswordBox FontSize="20" x:Name="pbPassword" Margin="10" ></PasswordBox>
-            <Button Content="Bejelentkezés" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Click="Button_Click"></Button>
+            <Label FontFamily="Times New Roman" Content="Felhasználónév:" FontSize="20"></Label>
+            <TextBox BorderBrush="Red" BorderThickness="2" x:Name="tbUsername" FontSize="20" Margin="10"  ></TextBox>
+            <Label FontFamily="Times New Roman" Content="Jelszó:" FontSize="20"></Label>
+            <PasswordBox BorderBrush="Red" BorderThickness="2" FontSize="20" x:Name="pbPassword" Margin="10" ></PasswordBox>
+            <Button Content="Bejelentkezés" Background="LightGray" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Click="Button_Click"></Button>
             <Label x:Name="lError" Content="" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></Label>
         </StackPanel>
         

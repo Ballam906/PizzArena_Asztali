@@ -13,8 +13,8 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="Padding" Value="14"/>
             <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="BorderThickness" Value="3"/>
         </Style>
 
         <Style TargetType="Button">
@@ -58,7 +58,7 @@
         <Border Style="{StaticResource Card}" Grid.RowSpan="2">
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
-                    <TextBlock Text="Admin Panel" FontSize="22" FontWeight="SemiBold" Foreground="#FF111827"/>
+                    <TextBlock FontFamily="Times New Roman" Text="Admin Panel" FontSize="22" FontWeight="SemiBold" Foreground="#FF111827"/>
                 </StackPanel>
 
                 <TabControl TabStripPlacement="Left">
@@ -67,7 +67,35 @@
                         
                     </TabItem>
                     <TabItem Header="GlobalSettings">
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
 
+                            <TextBlock Grid.Row="0" Text="GlobalSettings" Foreground="#FF6B7280"/>
+
+                            <StackPanel Grid.Row="1" Orientation="Vertical">
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="1" Orientation="Vertical">
+                                    <Label FontFamily="Times New Roman" Content="Contact email:"></Label>
+                                    <TextBox x:Name="GlobalContactEmailTextBox" Width="200" />
+                                    <Label FontFamily="Times New Roman"  Content="Global delivery time:"></Label>
+                                    <TextBox x:Name="GlobalDeliveryTextBox" Width="200" />
+                                    <Label FontFamily="Times New Roman"  Content="Facebook URL:"></Label>
+                                    <TextBox x:Name="GlobalFacebookTextBox" Width="200" />
+                                    <Label FontFamily="Times New Roman"  Content="Instagram URL:"></Label>
+                                    <TextBox x:Name="GlobalInstagramTextBox" Width="200" />
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Row="2">
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <Button Content="Reload" Click="GlobalReload_Click"/>
+                                    <Button Content="Update" Click="GlobalUpdate_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
                     </TabItem>
 
 
@@ -121,8 +149,48 @@
                     
                     
                     <TabItem Header="OrderItem">
-                        
+
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Orders" Foreground="#FF6B7280"/>
+
+                            <DataGrid BorderThickness="0" x:Name="OrderItemGrid" Grid.Row="1"
+                                SelectionChanged="OrderItemGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
+                                    <DataGridTextColumn Header="ItemPrice" Binding="{Binding ItemPrice}" Width="*"/>
+                                    <DataGridTextColumn Header="Piece" Binding="{Binding Piece}" Width="*"/>
+                                    <DataGridTextColumn Header="Order_Id" Binding="{Binding Order_Id}" Width="*"/>
+                                    <DataGridTextColumn Header="Item_Id" Binding="{Binding Item_Id}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <TextBox x:Name="OrderItemItemPriceTextBox" Width="90" />
+                                    <TextBox x:Name="OrderItemPieceTextBox" Width="90" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <Button Content="Reload" Click="OrderItemReload_Click"/>
+                                    <Button Content="Update" Click="OrderItemUpdate_Click"/>
+                                    <Button Content="Delete" Click="OrderItemDelete_Click"/>
+                                </StackPanel>
+
+
+                            </StackPanel>
+
+                        </Grid>
+
                     </TabItem>
+                    
+                    
+                    
+                    
                     <TabItem Header="Restaurant">
                         <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>

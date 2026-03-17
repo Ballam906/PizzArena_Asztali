@@ -12,6 +12,8 @@ using PizzArena_AdminPanel.API.Product;
 using PizzArena_AdminPanel.API.User;
 using PizzArena_AdminPanel.API.Restaurant;
 using PizzArena_AdminPanel.API.Order;
+using PizzArena_AdminPanel.API.OrderItem;
+using PizzArena_AdminPanel.API.GlobalSettings;
 
 
 namespace PizzArena_AdminPanel.API
@@ -306,7 +308,7 @@ namespace PizzArena_AdminPanel.API
             return wrapper?.Result;
         }
 
-        public async Task<bool> UpdateOrder(int id, string customername, string customeremail, string customerphone, string postalcode, string ccity,string cstreet,string cother, string cuserid)
+        public async Task<bool> UpdateOrder(int id, string customername, string customeremail, string customerphone, string postalcode, string ccity, string cstreet, string cother, string cuserid)
         {
             var data = new
             {
@@ -333,5 +335,92 @@ namespace PizzArena_AdminPanel.API
             var response = await _client.DeleteAsync($"api/Order?id={id}");
             return response.IsSuccessStatusCode;
         }
+
+
+        //orderitem
+
+        public async Task<List<OrderItemDto>> GetAllOrderItem()
+        {
+            var response = await _client.GetAsync("api/OrderItem");
+            var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode) return new List<OrderItemDto>();
+
+            //var wrapper = JsonSerializer.Deserialize<ApiResponse<List<OrderDto>>>(body, _jsonOptions);
+            //return wrapper?.Result;
+            var wrapper = JsonSerializer.Deserialize<List<OrderItemDto>>(body, _jsonOptions);
+            return wrapper;
+        }
+
+        public async Task<OrderItemDto?> GetOrderItemById(int id)
+        {
+            var response = await _client.GetAsync($"api/OrderItem/GetById?id={id}");
+            var body = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var wrapper = JsonSerializer.Deserialize<ApiResponse<OrderItemDto>>(body, _jsonOptions);
+            return wrapper?.Result;
+        }
+
+        public async Task<bool> UpdateOrderItem(int id, int itemprice, int Piece)
+        {
+            var data = new
+            {
+                itemPrice = itemprice,
+                piece = Piece
+            }; ;
+
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"api/OrderItem?id={id}", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteOrderItem(int id)
+        {
+            var response = await _client.DeleteAsync($"api/OrderItem?id={id}");
+            return response.IsSuccessStatusCode;
+        }
+
+        //global settings
+
+        public async Task<List<GlobalSettingsDto>> GetGlobalSettings()
+        {
+            var response = await _client.GetAsync("api/GlobalSettings");
+            if (!response.IsSuccessStatusCode) return new List<GlobalSettingsDto>();
+
+            var body = await response.Content.ReadAsStringAsync();
+
+            var wrapper = JsonSerializer.Deserialize<ApiResponse<GlobalSettingsDto>>(body, _jsonOptions );
+
+            //listaba, mert listakent adjuk at
+            if (wrapper?.Result != null)
+            {
+                return new List<GlobalSettingsDto> { wrapper.Result };
+            }
+
+            return new List<GlobalSettingsDto>();
+        }
+
+        public async Task<bool> UpdateGlobalSettings(int id, string contactemail, string deliverytime, string facebook, string instagram)
+        {
+            var data = new
+            {
+                contactEmail = contactemail,
+                deliveryTime = deliverytime,
+                facebookUrl = facebook,
+                instagramUrl = instagram,
+            };
+
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"api/GlobalSettings?id={id}", content);
+
+            return response.IsSuccessStatusCode;
+        }
     }
+
 }
+

@@ -1,6 +1,8 @@
 ﻿using PizzArena_AdminPanel.API;
 using PizzArena_AdminPanel.API.Category;
+using PizzArena_AdminPanel.API.GlobalSettings;
 using PizzArena_AdminPanel.API.Order;
+using PizzArena_AdminPanel.API.OrderItem;
 using PizzArena_AdminPanel.API.Product;
 using PizzArena_AdminPanel.API.Restaurant;
 using PizzArena_AdminPanel.API.User;
@@ -33,6 +35,8 @@ namespace PizzArena_AdminPanel
         private readonly ObservableCollection<UserDto> _users = new();
         private readonly ObservableCollection<RestaurantDto> _restaurants = new();
         private readonly ObservableCollection<OrderDto> _orders = new();
+        private readonly ObservableCollection<OrderItemDto> _orderitems = new();
+        private readonly ObservableCollection<GlobalSettingsDto> _globalsettings = new();
 
         public AdminPanel(ApiService api)
         {
@@ -44,12 +48,47 @@ namespace PizzArena_AdminPanel
             UsersGrid.ItemsSource = _users;
             RestaurantGrid.ItemsSource = _restaurants;
             OrderGrid.ItemsSource = _orders;
+            OrderItemGrid.ItemsSource = _orderitems;
+
 
             Loaded += async (_, __) => await LoadCategories();
             Loaded += async (_, __) => await LoadProducts();
             Loaded += async (_, __) => await LoadUsers();
             Loaded += async (_, __) => await LoadRestaurants();
             Loaded += async (_, __) => await LoadOrders();
+            Loaded += async (_, __) => await LoadOrderItems();
+            Loaded += async (_, __) => await LoadGlobalSettings();
+        }
+
+        private async Task LoadGlobalSettings()
+        {
+            _globalsettings.Clear();
+            var list = await _api.GetGlobalSettings();
+
+            foreach (var item in list)
+            {
+                _globalsettings.Add(item);
+            }
+
+            if (_globalsettings.Count > 0)
+            {
+                var settings = _globalsettings[0];
+                GlobalContactEmailTextBox.Text = settings.ContactEmail;
+                GlobalDeliveryTextBox.Text = settings.DeliveryTime;
+                GlobalFacebookTextBox.Text = settings.FacebookUrl;
+                GlobalInstagramTextBox.Text = settings.InstagramUrl;
+            }
+        }
+
+        private async Task LoadOrderItems()
+        {
+            _orderitems.Clear();
+            var list = await _api.GetAllOrderItem();
+
+            foreach (var item in list)
+            {
+                _orderitems.Add(item);
+            }
         }
 
         private async Task LoadOrders()
@@ -703,6 +742,134 @@ namespace PizzArena_AdminPanel
             OrderOtherTextBox.Clear();
             OrderUserIdTextBox.Clear();
             await LoadOrders();
+        }
+
+
+        //orderitem
+
+        private void OrderItemGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (OrderItemGrid.SelectedItem is OrderItemDto selected)
+            {
+                OrderItemItemPriceTextBox.Clear();
+                OrderItemPieceTextBox.Clear();
+            }
+        }
+
+        private async void OrderItemUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrderItemGrid.SelectedItem is not OrderItemDto selected)
+            {
+                MessageBox.Show("Válassz ki egy rendelés terméket.");
+                return;
+            }
+
+            var itempiece = OrderItemPieceTextBox.Text.Trim();
+            var itemprice = OrderItemItemPriceTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(itempiece))
+            {
+                MessageBox.Show("Adj meg egy db-ot.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(itemprice))
+            {
+                MessageBox.Show("Adj meg egy árat.");
+                return;
+            }
+            
+
+            var ok = await _api.UpdateOrderItem(selected.Id,Convert.ToInt32( itemprice),Convert.ToInt32( itempiece));
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült módosítani.");
+                return;
+            }
+
+            await LoadOrderItems();
+        }
+
+        private async void OrderItemDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrderItemGrid.SelectedItem is not OrderItemDto selected)
+            {
+                MessageBox.Show("Válassz ki egy rendelés terméket.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"Biztos törlöd? (Id={selected.Id}, Name={selected.Order_Id})",
+                "Törlés",
+                MessageBoxButton.YesNo
+            );
+
+            if (confirm != MessageBoxResult.Yes)
+                return;
+
+            var ok = await _api.DeleteOrderItem(selected.Id);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült törölni.");
+                return;
+            }
+
+            OrderItemPieceTextBox.Clear();
+            OrderItemItemPriceTextBox.Clear();
+            await LoadOrderItems();
+        }
+
+        private async void OrderItemReload_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadOrderItems();
+        }
+
+
+        //globalsettings
+        
+
+        private async void GlobalUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            var contactemail = GlobalContactEmailTextBox.Text.Trim();
+            var globaldelivery = GlobalDeliveryTextBox.Text.Trim();
+            var facebook = GlobalFacebookTextBox.Text.Trim();
+            var instagram = GlobalInstagramTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(contactemail))
+            {
+                MessageBox.Show("Adj meg egy kapcsolat tartási email-t.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(globaldelivery))
+            {
+                MessageBox.Show("Adj meg egy becsült szállítási időt.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(facebook))
+            {
+                MessageBox.Show("Adj meg egy facebook url-t.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(instagram))
+            {
+                MessageBox.Show("Adj meg egy instagram url-t.");
+                return;
+            }
+
+
+            // Meghívjuk a módosított metódust
+            var result = await _api.UpdateGlobalSettings(2, contactemail, globaldelivery, facebook, instagram);
+
+            if (!result)
+            {
+                MessageBox.Show("Nem sikerült módosítani.");
+                return;
+            }
+
+            MessageBox.Show("Beállítások sikeresen frissítve!");
+            await LoadGlobalSettings();
+        }
+
+        private async void GlobalReload_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadGlobalSettings();
         }
     }
 }
