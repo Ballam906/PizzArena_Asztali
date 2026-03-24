@@ -1,5 +1,6 @@
 ﻿using PizzArena_AdminPanel.API;
 using PizzArena_AdminPanel.API.Category;
+using PizzArena_AdminPanel.API.ChefSpecial;
 using PizzArena_AdminPanel.API.GlobalSettings;
 using PizzArena_AdminPanel.API.Order;
 using PizzArena_AdminPanel.API.OrderItem;
@@ -37,6 +38,7 @@ namespace PizzArena_AdminPanel
         private readonly ObservableCollection<OrderDto> _orders = new();
         private readonly ObservableCollection<OrderItemDto> _orderitems = new();
         private readonly ObservableCollection<GlobalSettingsDto> _globalsettings = new();
+        private readonly ObservableCollection<ChefSpecialDto> _chefspecials = new();
 
         public AdminPanel(ApiService api)
         {
@@ -49,6 +51,7 @@ namespace PizzArena_AdminPanel
             RestaurantGrid.ItemsSource = _restaurants;
             OrderGrid.ItemsSource = _orders;
             OrderItemGrid.ItemsSource = _orderitems;
+            ChefSpecialGrid.ItemsSource = _chefspecials;
 
 
             Loaded += async (_, __) => await LoadCategories();
@@ -58,6 +61,18 @@ namespace PizzArena_AdminPanel
             Loaded += async (_, __) => await LoadOrders();
             Loaded += async (_, __) => await LoadOrderItems();
             Loaded += async (_, __) => await LoadGlobalSettings();
+            Loaded += async (_, __) => await LoadChefSpecials();
+        }
+
+        private async Task LoadChefSpecials()
+        {
+            _chefspecials.Clear();
+            var list = await _api.GetAllChefSpecial();
+
+            foreach (var item in list)
+            {
+                _chefspecials.Add(item);
+            }
         }
 
         private async Task LoadGlobalSettings()
@@ -854,7 +869,6 @@ namespace PizzArena_AdminPanel
             }
 
 
-            // Meghívjuk a módosított metódust
             var result = await _api.UpdateGlobalSettings(2, contactemail, globaldelivery, facebook, instagram);
 
             if (!result)
@@ -870,6 +884,115 @@ namespace PizzArena_AdminPanel
         private async void GlobalReload_Click(object sender, RoutedEventArgs e)
         {
             await LoadGlobalSettings();
+        }
+
+        //chefspecial
+
+        private void ChefSpecialGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ChefSpecialGrid.SelectedItem is ChefSpecialDto selected)
+            {
+                ChefSpecialProductIdTextBox.Clear();
+                ChefSpecialCustomNoteTextBox.Clear();
+            }
+        }
+
+        private async void ChefSpecialReload_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadChefSpecials();
+        }
+
+        private async void ChefSpecialAdd_Click(object sender, RoutedEventArgs e)
+        {
+            var productid = ChefSpecialProductIdTextBox.Text.Trim();
+            var customnote = ChefSpecialCustomNoteTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(productid))
+            {
+                MessageBox.Show("Adj meg egy termék id-t.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(customnote))
+            {
+                MessageBox.Show("Adj meg egy leirást.");
+                return;
+            }
+           
+
+
+            var ok = await _api.CreateChefSpecial(Convert.ToInt32( productid),customnote);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült létrehozni.");
+                return;
+            }
+
+            ChefSpecialProductIdTextBox.Clear();
+            ChefSpecialCustomNoteTextBox.Clear();
+            await LoadChefSpecials();
+        }
+
+        private async void ChefSpecialUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (ChefSpecialGrid.SelectedItem is not ChefSpecialDto selected)
+            {
+                MessageBox.Show("Válassz ki egy séf ajánlást.");
+                return;
+            }
+
+            var productid = ChefSpecialProductIdTextBox.Text.Trim();
+            var customnote = ChefSpecialCustomNoteTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(productid))
+            {
+                MessageBox.Show("Adj meg egy termék id-t.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(customnote))
+            {
+                MessageBox.Show("Adj meg egy leirást.");
+                return;
+            }
+
+
+
+            var ok = await _api.UpdateChefSpecial(selected.Id, Convert.ToInt32(productid), customnote);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült frissíteni.");
+                return;
+            }
+
+            ChefSpecialProductIdTextBox.Clear();
+            ChefSpecialCustomNoteTextBox.Clear();
+            await LoadChefSpecials();
+        }
+
+        private async void ChefSpecialtDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (ChefSpecialGrid.SelectedItem is not ChefSpecialDto selected)
+            {
+                MessageBox.Show("Válassz ki egy séf ajánlást.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"Biztos törlöd? (Id={selected.ProductId}, Name={selected.CustomNote})",
+                "Törlés",
+                MessageBoxButton.YesNo
+            );
+
+            if (confirm != MessageBoxResult.Yes)
+                return;
+
+            var ok = await _api.DeleteChefSpecial(selected.Id);
+            if (!ok)
+            {
+                MessageBox.Show("Nem sikerült törölni.");
+                return;
+            }
+
+            ChefSpecialProductIdTextBox.Clear();
+            ChefSpecialCustomNoteTextBox.Clear();
+            await LoadChefSpecials();
         }
     }
 }

@@ -16,6 +16,11 @@
             <Setter Property="BorderBrush" Value="Red"/>
             <Setter Property="BorderThickness" Value="3"/>
         </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="FontFamily" Value="Times New Roman"></Setter>
+            <Setter Property="Background" Value="LightGray"></Setter>
+            <Setter Property="Padding" Value="7"></Setter>
+        </Style>
 
         <Style TargetType="Button">
             <Setter Property="Height" Value="32"/>
@@ -64,8 +69,45 @@
                 <TabControl TabStripPlacement="Left">
                     
                     <TabItem Header="ChefSpecial">
-                        
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280"/>
+
+                            <DataGrid BorderThickness="0" x:Name="ChefSpecialGrid" Grid.Row="1"
+                            SelectionChanged="ChefSpecialGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
+                                    <DataGridTextColumn Header="ProductId" Binding="{Binding ProductId}" Width="*"/>
+                                    <DataGridTextColumn Header="CustomNote" Binding="{Binding CustomNote}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <TextBox x:Name="ChefSpecialProductIdTextBox" Width="90" />
+                                    <TextBox x:Name="ChefSpecialCustomNoteTextBox" Width="90" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                                    <Button Content="Reload" Click="ChefSpecialReload_Click"/>
+                                    <Button Content="Add" Click="ChefSpecialAdd_Click"/>
+                                    <Button Content="Update" Click="ChefSpecialUpdate_Click"/>
+                                    <Button Content="Delete" Click="ChefSpecialtDelete_Click"/>
+                                </StackPanel>
+
+
+                            </StackPanel>
+
+                        </Grid>
                     </TabItem>
+                    
+                    
+                    
+                    
                     <TabItem Header="GlobalSettings">
                         <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>

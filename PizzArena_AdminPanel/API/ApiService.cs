@@ -14,6 +14,7 @@ using PizzArena_AdminPanel.API.Restaurant;
 using PizzArena_AdminPanel.API.Order;
 using PizzArena_AdminPanel.API.OrderItem;
 using PizzArena_AdminPanel.API.GlobalSettings;
+using PizzArena_AdminPanel.API.ChefSpecial;
 
 
 namespace PizzArena_AdminPanel.API
@@ -392,7 +393,7 @@ namespace PizzArena_AdminPanel.API
 
             var body = await response.Content.ReadAsStringAsync();
 
-            var wrapper = JsonSerializer.Deserialize<ApiResponse<GlobalSettingsDto>>(body, _jsonOptions );
+            var wrapper = JsonSerializer.Deserialize<ApiResponse<GlobalSettingsDto>>(body, _jsonOptions);
 
             //listaba, mert listakent adjuk at
             if (wrapper?.Result != null)
@@ -418,6 +419,71 @@ namespace PizzArena_AdminPanel.API
 
             var response = await _client.PutAsync($"api/GlobalSettings?id={id}", content);
 
+            return response.IsSuccessStatusCode;
+        }
+
+        //chefspecial
+
+        public async Task<List<ChefSpecialDto>> GetAllChefSpecial()
+        {
+            var response = await _client.GetAsync("api/ChefSpecial/GetAll");
+            var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode) return new List<ChefSpecialDto>();
+
+            //var wrapper = JsonSerializer.Deserialize<ApiResponse<List<OrderDto>>>(body, _jsonOptions);
+            //return wrapper?.Result;
+            //var wrapper = JsonSerializer.Deserialize<List<ChefSpecialDto>>(body, _jsonOptions);
+            //return wrapper;
+            var wrapper = JsonSerializer.Deserialize<ApiResponse<List<ChefSpecialDto>>>(body, _jsonOptions);
+            return wrapper?.Result ?? new List<ChefSpecialDto>();
+        }
+
+
+        public async Task<bool> CreateChefSpecial(int productid, string customnote)
+        {
+            var data = new
+            {
+                productId = productid,
+                customNote = customnote
+            };
+
+
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("api/ChefSpecial", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<ChefSpecialDto?> GetChefSpeicalById(int id)
+        {
+            var response = await _client.GetAsync($"api/ChefSpecial/GetById?id={id}");
+            var body = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var wrapper = JsonSerializer.Deserialize<ApiResponse<ChefSpecialDto>>(body, _jsonOptions);
+            return wrapper?.Result;
+        }
+
+        public async Task<bool> DeleteChefSpecial(int id)
+        {
+            var response = await _client.DeleteAsync($"api/ChefSpecial?id={id}");
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateChefSpecial(int id, int productid, string customnote)
+        {
+            var data = new
+            {
+                productId = productid,
+                customNote = customnote
+            }; ;
+
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"api/ChefSpecial?id={id}", content);
             return response.IsSuccessStatusCode;
         }
     }
