@@ -1,3 +1,4 @@
+![.NET Version](https://img.shields.io/badge/.NET-8.0-blueviolet)
 # PizzArena Admin Panel
 
 Ez egy .NET alapú asztali (WPF) alkalmazás, amellyel a PizzArénához tartozó adatok kezelhetőek. Az alkalmazás egy elkülönített ASP.NET Core Web API-hoz csatlakozik, biztosítva a biztonságos és gyors adatkezelést.
