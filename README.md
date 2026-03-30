@@ -12,4 +12,4 @@ Ez egy .NET alapú asztali (WPF) alkalmazás, amellyel a PizzArénához tartozó
 Ellenőrizd az ApiService.cs fájlban az API elérését:
 **_client.BaseAddress = new Uri("https://localhost:5000/");**
 
-![Főoldal](docs/images/fooldal.png)
+![Főoldal](docs/images/fooldal.PNG)
