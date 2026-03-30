@@ -13,3 +13,5 @@ Ellenőrizd az ApiService.cs fájlban az API elérését:
 **_client.BaseAddress = new Uri("https://localhost:5000/");**
 
 ![Főoldal](docs/images/fooldal.PNG)
+
+![Admin Panel](docs/images/panel.PNG)
