@@ -22,6 +22,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace PizzArena_AdminPanel
 {
@@ -39,6 +41,10 @@ namespace PizzArena_AdminPanel
         private readonly ObservableCollection<OrderItemDto> _orderitems = new();
         private readonly ObservableCollection<GlobalSettingsDto> _globalsettings = new();
         private readonly ObservableCollection<ChefSpecialDto> _chefspecials = new();
+        private ICollectionView productView;
+        private ICollectionView userView;
+        private ICollectionView orderView;
+        private ICollectionView orderitemView;
 
         public AdminPanel(ApiService api)
         {
@@ -46,12 +52,56 @@ namespace PizzArena_AdminPanel
 
             _api = api;
             CategoryGrid.ItemsSource = _categories;
-            ProductGrid.ItemsSource = _products;
-            UsersGrid.ItemsSource = _users;
+            //ProductGrid.ItemsSource = _products;
+            //UsersGrid.ItemsSource = _users;
             RestaurantGrid.ItemsSource = _restaurants;
-            OrderGrid.ItemsSource = _orders;
-            OrderItemGrid.ItemsSource = _orderitems;
+            //OrderGrid.ItemsSource = _orders;
+            //OrderItemGrid.ItemsSource = _orderitems;
             ChefSpecialGrid.ItemsSource = _chefspecials;
+
+            productView = CollectionViewSource.GetDefaultView(_products);
+            ProductGrid.ItemsSource = productView;
+            userView = CollectionViewSource.GetDefaultView(_users);
+            UsersGrid.ItemsSource = userView;
+            orderView = CollectionViewSource.GetDefaultView(_orders);
+            OrderGrid.ItemsSource = orderView;
+            orderitemView = CollectionViewSource.GetDefaultView(_orderitems);
+            OrderItemGrid.ItemsSource = orderitemView;
+
+            productView.Filter = item =>
+            {
+                if (string.IsNullOrWhiteSpace(SearchProductTextBox.Text))
+                    return true;
+
+                var product = item as ProductDto;
+                return product != null && product.Name.Contains(SearchProductTextBox.Text, StringComparison.OrdinalIgnoreCase);
+            };
+
+            userView.Filter = item =>
+            {
+                if (string.IsNullOrWhiteSpace(SearchUserTextBox.Text))
+                    return true;
+
+                var user = item as UserDto;
+                return user != null && user.userName.Contains(SearchUserTextBox.Text, StringComparison.OrdinalIgnoreCase);
+            };
+
+            orderView.Filter = item =>
+            {
+                if (string.IsNullOrWhiteSpace(SearchOrderTextBox.Text))
+                    return true;
+
+                var order = item as OrderDto;
+                return order != null && order.User_Id.Contains(SearchOrderTextBox.Text, StringComparison.OrdinalIgnoreCase);
+            };
+            orderitemView.Filter = item =>
+            {
+                if (string.IsNullOrWhiteSpace(SearchOrderItemTextBox.Text))
+                    return true;
+
+                var orderitem = item as OrderItemDto;
+                return orderitem != null && orderitem.Order_Id.ToString().Contains(SearchOrderItemTextBox.Text);
+            };
 
 
             Loaded += async (_, __) => await LoadCategories();
@@ -440,16 +490,22 @@ namespace PizzArena_AdminPanel
             }
 
 
-            var ok = await _api.CreateUser(username,email,password);
+            var (ok, error) = await _api.CreateUser(UsernameTextBox.Text, UserEmailTextbox.Text, UserPasswordTextBox.Text);
+
             if (!ok)
             {
-                MessageBox.Show("Nem sikerült létrehozni.");
-                return;
+                // Itt csak a letisztázott üzenet jelenik meg
+                MessageBox.Show(error, "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return; // <--- MEGÁLLÍTJA a kódot, nem megy tovább a "Sikeres" ágra!
             }
+
+            // Csak akkor jutunk ide, ha tényleg OK volt a válasz
+            MessageBox.Show("Felhasználó sikeresen létrehozva!", "Siker", MessageBoxButton.OK, MessageBoxImage.Information);
 
             UsernameTextBox.Clear();
             UserEmailTextbox.Clear();
             UserPasswordTextBox.Clear();
+
             await LoadUsers();
         }
 
@@ -993,6 +1049,26 @@ namespace PizzArena_AdminPanel
             ChefSpecialProductIdTextBox.Clear();
             ChefSpecialCustomNoteTextBox.Clear();
             await LoadChefSpecials();
+        }
+
+        private void SearchProductTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            productView?.Refresh();
+        }
+
+        private void SearchUserTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            userView?.Refresh();
+        }
+
+        private void SearchOrderTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            orderView?.Refresh();
+        }
+
+        private void SearchOrderItemTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            orderitemView?.Refresh();
         }
     }
 }

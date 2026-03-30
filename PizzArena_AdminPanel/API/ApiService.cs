@@ -196,24 +196,53 @@ namespace PizzArena_AdminPanel.API
             return (false, string.IsNullOrWhiteSpace(body) ? "Ismeretlen hiba." : body);
         }
 
-        public async Task<bool> CreateUser(string username, string email, string password)
+        //public async Task<bool> CreateUser(string username, string email, string password)
+        //{
+        //    var data = new
+        //    {
+        //        userName = username,
+        //        email = email,
+        //        password = password
+        //    };
+
+
+        //    var json = JsonSerializer.Serialize(data);
+        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        //    var response = await _client.PostAsync("api/User/register", content);
+        //    var roleResponse = await _client.PostAsync(
+        //    $"api/User/assignrole?UserName={username}&RoleName=Admin",
+        //    null);
+        //    return response.IsSuccessStatusCode;
+        //}
+
+        
+
+        public async Task<(bool ok, string error)> CreateUser(string username, string email, string password)
         {
-            var data = new
-            {
-                userName = username,
-                email = email,
-                password = password
-            };
-
-
-            var json = JsonSerializer.Serialize(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var data = new { userName = username, email = email, password = password };
+            var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("api/User/register", content);
-            var roleResponse = await _client.PostAsync(
-            $"api/User/assignrole?UserName={username}&RoleName=Admin",
-            null);
-            return response.IsSuccessStatusCode;
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    using var doc = JsonDocument.Parse(responseBody);
+                    if (doc.RootElement.TryGetProperty("message", out var msg))
+                    {
+                        return (false, msg.GetString()); 
+                    }
+                }
+                catch
+                {
+                }
+                return (false, responseBody);
+            }
+
+            return (true, null);
         }
 
         //restaurant

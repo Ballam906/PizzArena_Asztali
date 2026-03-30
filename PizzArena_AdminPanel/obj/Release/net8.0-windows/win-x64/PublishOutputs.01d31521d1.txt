@@ -1,0 +1,7 @@
+C:\Users\AutoWolf\Desktop\PizzArena_AdminPanel.pdb
+C:\Users\AutoWolf\Desktop\D3DCompiler_47_cor3.dll
+C:\Users\AutoWolf\Desktop\PenImc_cor3.dll
+C:\Users\AutoWolf\Desktop\PresentationNative_cor3.dll
+C:\Users\AutoWolf\Desktop\vcruntime140_cor3.dll
+C:\Users\AutoWolf\Desktop\wpfgfx_cor3.dll
+C:\Users\AutoWolf\Desktop\PizzArena_AdminPanel.exe

@@ -76,7 +76,7 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280"/>
+                            <TextBlock Grid.Row="0" Text="ChefSpecial" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
                             <DataGrid BorderThickness="0" x:Name="ChefSpecialGrid" Grid.Row="1"
                             SelectionChanged="ChefSpecialGrid_SelectionChanged">
@@ -116,7 +116,7 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="GlobalSettings" Foreground="#FF6B7280"/>
+                            <TextBlock Grid.Row="0" Text="GlobalSettings" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
                             <StackPanel Grid.Row="1" Orientation="Vertical">
                                 <StackPanel HorizontalAlignment="Center" Grid.Row="1" Orientation="Vertical">
@@ -146,13 +146,21 @@
                         <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Orders" Foreground="#FF6B7280"/>
+                            <TextBlock Grid.Row="0" Text="Orders" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
-                            <DataGrid BorderThickness="0" x:Name="OrderGrid" Grid.Row="1"
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Keresés userid alapján:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="SearchOrderTextBox" Width="200" Height="25" 
+                                    VerticalContentAlignment="Center"
+                                    TextChanged="SearchOrderTextBox_TextChanged" />      
+                            </StackPanel>   
+
+                            <DataGrid BorderThickness="0" x:Name="OrderGrid" Grid.Row="2"
                                     SelectionChanged="OrderGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
@@ -164,7 +172,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                            <StackPanel Grid.Row="3" Orientation="Vertical">
                                 <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
                                     <TextBox x:Name="OrderNameTextBox" Width="90" />
                                     <TextBox x:Name="OrderEmailTextBox" Width="90" />
@@ -195,13 +203,21 @@
                         <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Orders" Foreground="#FF6B7280"/>
+                            <TextBlock Grid.Row="0" Text="Order Items" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
-                            <DataGrid BorderThickness="0" x:Name="OrderItemGrid" Grid.Row="1"
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Keresés név alapján:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="SearchOrderItemTextBox" Width="200" Height="25" 
+                                VerticalContentAlignment="Center"
+                                TextChanged="SearchOrderItemTextBox_TextChanged" />
+                            </StackPanel>
+
+                            <DataGrid BorderThickness="0" x:Name="OrderItemGrid" Grid.Row="2"
                                 SelectionChanged="OrderItemGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
@@ -212,7 +228,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <StackPanel Grid.Row="2" Orientation="Vertical">
+                            <StackPanel Grid.Row="3" Orientation="Vertical">
                                 <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
                                     <TextBox x:Name="OrderItemItemPriceTextBox" Width="90" />
                                     <TextBox x:Name="OrderItemPieceTextBox" Width="90" />
@@ -241,7 +257,7 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280"/>
+                            <TextBlock Grid.Row="0" Text="Restaurant" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
                             <DataGrid BorderThickness="0" x:Name="RestaurantGrid" Grid.Row="1"
                                 SelectionChanged="RestaurantGrid_SelectionChanged">
@@ -282,13 +298,21 @@
                         <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Users" Foreground="#FF6B7280"></TextBlock>
+                            <TextBlock Grid.Row="0" Text="Users" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
-                            <DataGrid BorderThickness="0" x:Name="UsersGrid" Grid.Row="1" SelectionChanged="UsersGrid_SelectionChanged">
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Keresés név alapján:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="SearchUserTextBox" Width="200" Height="25" 
+                                         VerticalContentAlignment="Center"
+                                         TextChanged="SearchUserTextBox_TextChanged" />  
+                            </StackPanel>
+
+                            <DataGrid BorderThickness="0" x:Name="UsersGrid" Grid.Row="2" SelectionChanged="UsersGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="250"/>
                                     <DataGridTextColumn Header="UserName" Binding="{Binding userName}" Width="120"/>
@@ -296,7 +320,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                            <StackPanel Grid.Row="3" Orientation="Horizontal">
                                 <Label Content="Admin regisztrálás: (username,email,password)"></Label>
                                 <TextBox x:Name="UsernameTextBox" Width="90" />
                                 <TextBox x:Name="UserEmailTextbox" Width="90" />
@@ -314,13 +338,21 @@
                         <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Products" Foreground="#FF6B7280"></TextBlock>
+                            <TextBlock Grid.Row="0" Text="Products" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
-                            <DataGrid BorderThickness="0" x:Name="ProductGrid" Grid.Row="1" SelectionChanged="ProductGrid_SelectionChanged">
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Keresés név alapján:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="SearchProductTextBox" Width="200" Height="25" 
+                                 VerticalContentAlignment="Center"
+                                 TextChanged="SearchProductTextBox_TextChanged" />
+                            </StackPanel>
+
+                            <DataGrid BorderThickness="0" x:Name="ProductGrid" Grid.Row="2" SelectionChanged="ProductGrid_SelectionChanged" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"/>
@@ -332,28 +364,25 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <StackPanel Grid.Row="2" Orientation="Vertical">
-                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
-                                    <TextBox x:Name="ProductNameTextBox" Width="90" />
-                                    <TextBox x:Name="ProductDescriptionTextBox" Width="90" />
-                                    <TextBox x:Name="ProductPriceTextBox" Width="90" />
-                                    <TextBox x:Name="ProductIsAvailableTextBox" Width="90" />
-                                    <TextBox x:Name="ProductImageUrlTextBox" Width="90" />
-                                    <TextBox x:Name="ProductCategoryIdTextBox" Width="90" />
+                            <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,10,0,0">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <TextBox x:Name="ProductNameTextBox" Width="90" Margin="2"/>
+                                    <TextBox x:Name="ProductDescriptionTextBox" Width="90" Margin="2"/>
+                                    <TextBox x:Name="ProductPriceTextBox" Width="90" Margin="2" />
+                                    <TextBox x:Name="ProductIsAvailableTextBox" Width="90" Margin="2" />
+                                    <TextBox x:Name="ProductImageUrlTextBox" Width="90" Margin="2" />
+                                    <TextBox x:Name="ProductCategoryIdTextBox" Width="90" Margin="2" />
                                 </StackPanel>
-                                <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
-                                    <Button Content="Reload" Click="ProductReload_Click"/>
-                                    <Button Content="Add" Click="ProductAdd_Click"/>
-                                    <Button Content="Update" Click="ProductyUpdate_Click"/>
-                                    <Button Content="Delete" Click="ProductDelete_Click"/>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,5,0,0">
+                                    <Button Content="Reload" Click="ProductReload_Click" Margin="5"/>
+                                    <Button Content="Add" Click="ProductAdd_Click" Margin="5"/>
+                                    <Button Content="Update" Click="ProductyUpdate_Click" Margin="5"/>
+                                    <Button Content="Delete" Click="ProductDelete_Click" Margin="5"/>
                                 </StackPanel>
-
-                                
                             </StackPanel>
-
                         </Grid>
                     </TabItem>
-                    
+
                     <TabItem Header="Category">
                         <Grid Margin="10,0,0,0">
                             <Grid.RowDefinitions>
@@ -362,7 +391,7 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280"/>
+                            <TextBlock Grid.Row="0" Text="Categories" Foreground="#FF6B7280" FontSize="18" Margin="0,0,0,5" />
 
                             <DataGrid BorderThickness="0" x:Name="CategoryGrid" Grid.Row="1"
                                       SelectionChanged="CategoryGrid_SelectionChanged">
