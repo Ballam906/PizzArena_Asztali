@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PizzArena_AdminPanel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0c697eaa080e8c7a36e7db33c4e1329e72d8359")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5caa63dc8f20c2d566eb9a724e395277dd3ec672")]
 [assembly: System.Reflection.AssemblyProductAttribute("PizzArena_AdminPanel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PizzArena_AdminPanel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

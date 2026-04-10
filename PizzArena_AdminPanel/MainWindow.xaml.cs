@@ -29,7 +29,7 @@ namespace PizzArena_AdminPanel
 
             if (result == null)
             {
-                lError.Content = "Hibás felhasználónév vagy jelszó!";
+                lError.Text = "Hibás felhasználónév vagy jelszó!";
                 return;
             }
 

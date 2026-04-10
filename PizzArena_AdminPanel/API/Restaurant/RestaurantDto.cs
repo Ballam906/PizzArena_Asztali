@@ -14,5 +14,6 @@ namespace PizzArena_AdminPanel.API.Restaurant
         public string imageUrl { get; set; }
         public string openingHours { get; set; }
         public string address { get; set; }
+        public string contactPhone { get; set; }
     }
 }

@@ -3,39 +3,105 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PizzArena_AdminPanel"
         mc:Ignorable="d"
-        
-        Title="PizzAréna" Height="450" Width="450">
+        Title="PizzAréna - Bejelentkezés" Height="500" Width="400"
+        WindowStartupLocation="CenterScreen" Background="#F3F4F6" ResizeMode="NoResize">
 
     <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="MinWidth" Value="86"/>
-            <Setter Property="Padding" Value="14,0"/>
-            <Setter Property="Margin" Value="0,0,8,0"/>
-            <Setter Property="Background" Value="#FFE5E7EB"/>
-            <Setter Property="Foreground" Value="#FF111827"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="LoginCard" TargetType="Border">
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InputLabel" TargetType="Label">
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,10,0,2"/>
+        </Style>
+
+        <Style TargetType="Control" x:Key="InputStyle">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource InputStyle}">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="6"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="PasswordBox" BasedOn="{StaticResource InputStyle}">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="6"/>
+                </Style>
+            </Style.Resources>
         </Style>
     </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.2*"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" FontFamily="Times New Roman" Content="PizzAréna Admin Panel" FontSize="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+        <Border Grid.Row="0" Background="#DC2626"/>
 
-        <StackPanel Grid.Row="1" Margin="20" >
-            <Label FontFamily="Times New Roman" Content="Felhasználónév:" FontSize="20"></Label>
-            <TextBox BorderBrush="Red" BorderThickness="2" x:Name="tbUsername" FontSize="20" Margin="10"  ></TextBox>
-            <Label FontFamily="Times New Roman" Content="Jelszó:" FontSize="20"></Label>
-            <PasswordBox BorderBrush="Red" BorderThickness="2" FontSize="20" x:Name="pbPassword" Margin="10" ></PasswordBox>
-            <Button Content="Bejelentkezés" Background="LightGray" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Click="Button_Click"></Button>
-            <Label x:Name="lError" Content="" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></Label>
-        </StackPanel>
-        
-        
+        <Border Grid.RowSpan="2" Style="{StaticResource LoginCard}" Width="320">
+            <StackPanel>
+                <TextBlock Text="PizzAréna" 
+                           FontSize="28" 
+                           FontWeight="ExtraBold" 
+                           Foreground="#DC2626" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,5"/>
+                <TextBlock Text="Adminisztrátori belépés" 
+                           FontSize="14" 
+                           Foreground="#6B7280" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,25"/>
+
+                <Label Content="Felhasználónév" Style="{StaticResource InputLabel}"/>
+                <TextBox x:Name="tbUsername" />
+
+                <Label Content="Jelszó" Style="{StaticResource InputLabel}"/>
+                <PasswordBox x:Name="pbPassword" />
+
+                <Button Content="Bejelentkezés" 
+                        Click="Button_Click"
+                        Background="#DC2626" 
+                        Foreground="White" 
+                        Height="45" 
+                        Margin="0,30,0,10" 
+                        FontWeight="Bold" 
+                        Cursor="Hand">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="8"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <TextBlock x:Name="lError" 
+                           Text="" 
+                           Foreground="#EF4444" 
+                           FontSize="12" 
+                           TextAlignment="Center" 
+                           TextWrapping="Wrap"
+                           Margin="0,5"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

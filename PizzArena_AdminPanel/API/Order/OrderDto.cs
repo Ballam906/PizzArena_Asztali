@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PizzArena_AdminPanel.API.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,5 +21,7 @@ namespace PizzArena_AdminPanel.API.Order
         public string Street { get; set; }
         public string Other { get; set; }
         public string User_Id { get; set; }
+        public OrderStatus Status { get; set; } 
+        public int RestaurantId { get; set; }
     }
 }

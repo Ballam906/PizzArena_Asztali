@@ -39,7 +39,6 @@ namespace PizzArena_AdminPanel
         private readonly ObservableCollection<RestaurantDto> _restaurants = new();
         private readonly ObservableCollection<OrderDto> _orders = new();
         private readonly ObservableCollection<OrderItemDto> _orderitems = new();
-        private readonly ObservableCollection<GlobalSettingsDto> _globalsettings = new();
         private readonly ObservableCollection<ChefSpecialDto> _chefspecials = new();
         private ICollectionView productView;
         private ICollectionView userView;
@@ -64,9 +63,7 @@ namespace PizzArena_AdminPanel
             userView = CollectionViewSource.GetDefaultView(_users);
             UsersGrid.ItemsSource = userView;
             orderView = CollectionViewSource.GetDefaultView(_orders);
-            OrderGrid.ItemsSource = orderView;
             orderitemView = CollectionViewSource.GetDefaultView(_orderitems);
-            OrderItemGrid.ItemsSource = orderitemView;
 
             productView.Filter = item =>
             {
@@ -86,22 +83,7 @@ namespace PizzArena_AdminPanel
                 return user != null && user.userName.Contains(SearchUserTextBox.Text, StringComparison.OrdinalIgnoreCase);
             };
 
-            orderView.Filter = item =>
-            {
-                if (string.IsNullOrWhiteSpace(SearchOrderTextBox.Text))
-                    return true;
-
-                var order = item as OrderDto;
-                return order != null && order.User_Id.Contains(SearchOrderTextBox.Text, StringComparison.OrdinalIgnoreCase);
-            };
-            orderitemView.Filter = item =>
-            {
-                if (string.IsNullOrWhiteSpace(SearchOrderItemTextBox.Text))
-                    return true;
-
-                var orderitem = item as OrderItemDto;
-                return orderitem != null && orderitem.Order_Id.ToString().Contains(SearchOrderItemTextBox.Text);
-            };
+            
 
 
             Loaded += async (_, __) => await LoadCategories();
@@ -109,7 +91,6 @@ namespace PizzArena_AdminPanel
             Loaded += async (_, __) => await LoadUsers();
             Loaded += async (_, __) => await LoadRestaurants();
             Loaded += async (_, __) => await LoadOrders();
-            Loaded += async (_, __) => await LoadOrderItems();
             Loaded += async (_, __) => await LoadGlobalSettings();
             Loaded += async (_, __) => await LoadChefSpecials();
         }
@@ -127,34 +108,25 @@ namespace PizzArena_AdminPanel
 
         private async Task LoadGlobalSettings()
         {
-            _globalsettings.Clear();
-            var list = await _api.GetGlobalSettings();
+            var settings = await _api.GetGlobalSettings();
 
-            foreach (var item in list)
+            if (settings != null)
             {
-                _globalsettings.Add(item);
-            }
-
-            if (_globalsettings.Count > 0)
-            {
-                var settings = _globalsettings[0];
                 GlobalContactEmailTextBox.Text = settings.ContactEmail;
                 GlobalDeliveryTextBox.Text = settings.DeliveryTime;
                 GlobalFacebookTextBox.Text = settings.FacebookUrl;
                 GlobalInstagramTextBox.Text = settings.InstagramUrl;
+
+                // Ha mégis szükséged van az adatra máshol, mentsd el egy sima változóba:
+                // this._currentSettings = settings;
             }
-        }
-
-        private async Task LoadOrderItems()
-        {
-            _orderitems.Clear();
-            var list = await _api.GetAllOrderItem();
-
-            foreach (var item in list)
+            else
             {
-                _orderitems.Add(item);
+                MessageBox.Show("Nem sikerült betölteni a globális beállításokat.");
             }
         }
+
+
 
         private async Task LoadOrders()
         {
@@ -177,6 +149,8 @@ namespace PizzArena_AdminPanel
             {
                 _restaurants.Add(item);
             }
+
+            OrderRestaurantGrid.ItemsSource = _restaurants;
         }
 
 
@@ -211,6 +185,13 @@ namespace PizzArena_AdminPanel
             foreach (var item in list)
                 _categories.Add(item);
         }
+
+
+
+        //categories
+
+
+
 
         private async void CategoryReload_Click(object sender, RoutedEventArgs e)
         {
@@ -295,6 +276,12 @@ namespace PizzArena_AdminPanel
             CategoryNameTextBox.Clear();
             await LoadCategories();
         }
+
+
+
+
+
+
 
         //product
 
@@ -568,6 +555,7 @@ namespace PizzArena_AdminPanel
             var imageurl = RestaurantimageUrlTextBox.Text.Trim();
             var openinghours = RestaurantopeningHoursTextBox.Text.Trim();
             var address = RestaurantaddressTextBox.Text.Trim();
+            var contactphone = RestaurantcontactphoneTextBox.Text.Trim();
             if (string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Adj meg egy nevet.");
@@ -593,9 +581,14 @@ namespace PizzArena_AdminPanel
                 MessageBox.Show("Adj meg egy címet.");
                 return;
             }
+            if (string.IsNullOrWhiteSpace(contactphone))
+            {
+                MessageBox.Show("Adj meg egy telefonszámot.");
+                return;
+            }
 
 
-            var ok = await _api.CreateRestaurant(name, description, imageurl,openinghours,address);
+            var ok = await _api.CreateRestaurant(name, description, imageurl,openinghours,address, contactphone);
             if (!ok)
             {
                 MessageBox.Show("Nem sikerült létrehozni.");
@@ -623,6 +616,7 @@ namespace PizzArena_AdminPanel
             var imageurl = RestaurantimageUrlTextBox.Text.Trim();
             var openinghours = RestaurantopeningHoursTextBox.Text.Trim();
             var address = RestaurantaddressTextBox.Text.Trim();
+            var contactphone = RestaurantcontactphoneTextBox.Text.Trim();
             if (string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Adj meg egy nevet.");
@@ -648,8 +642,13 @@ namespace PizzArena_AdminPanel
                 MessageBox.Show("Adj meg egy címet.");
                 return;
             }
+            if (string.IsNullOrWhiteSpace(contactphone))
+            {
+                MessageBox.Show("Adj meg egy telefonszámot.");
+                return;
+            }
 
-            var ok = await _api.UpdateRestaurant(selected.Id, name, description, imageurl,openinghours,address);
+            var ok = await _api.UpdateRestaurant(selected.Id, name, description, imageurl,openinghours,address, contactphone);
             if (!ok)
             {
                 MessageBox.Show("Nem sikerült módosítani.");
@@ -691,211 +690,11 @@ namespace PizzArena_AdminPanel
             await LoadRestaurants();
         }
 
-        //order
 
-        private void OrderGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (OrderGrid.SelectedItem is OrderDto selected)
-            {
-                OrderNameTextBox.Text = selected.CustomerName;
-                OrderEmailTextBox.Text = selected.CustomerEmail;
-                OrderPhoneTextBox.Text = selected.CustomerPhone;
-                OrderPostalCodeTextBox.Text = selected.PostalCode;
-                OrderCityTextBox.Text = selected.City;
-                OrderStreetTextBox.Text = selected.Street;
-                OrderOtherTextBox.Text = selected.Other;
-                OrderUserIdTextBox.Text = selected.User_Id;
-            }
-        }
-
-        private async void OrderReload_Click(object sender, RoutedEventArgs e)
-        {
-            await LoadOrders();
-        }
-
-        private async void OrderUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            if (OrderGrid.SelectedItem is not OrderDto selected)
-            {
-                MessageBox.Show("Válassz ki egy rendelést.");
-                return;
-            }
-
-            var name = OrderNameTextBox.Text.Trim();
-            var email = OrderEmailTextBox.Text.Trim();
-            var phone = OrderPhoneTextBox.Text.Trim();
-            var postalcode = OrderPostalCodeTextBox.Text.Trim();
-            var city = OrderCityTextBox.Text.Trim();
-            var street = OrderStreetTextBox.Text.Trim();
-            var other = OrderOtherTextBox.Text.Trim();
-            var userid = OrderUserIdTextBox.Text.Trim();
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                MessageBox.Show("Adj meg egy nevet.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                MessageBox.Show("Adj meg egy email-t.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(phone))
-            {
-                MessageBox.Show("Adj meg egy telefonszámot.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(postalcode))
-            {
-                MessageBox.Show("Adj meg egy irányítószámot.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(city))
-            {
-                MessageBox.Show("Adj meg egy várost.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(street))
-            {
-                MessageBox.Show("Adj meg egy utcát.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(other))
-            {
-                MessageBox.Show("Add meg a szállítási cím kiegészítését is.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(userid))
-            {
-                MessageBox.Show("Adj meg egy fiókot a rendeléshez.");
-                return;
-            }
-
-            var ok = await _api.UpdateOrder(selected.Id, name,email,phone,postalcode,city,street,other,userid);
-            if (!ok)
-            {
-                MessageBox.Show("Nem sikerült módosítani.");
-                return;
-            }
-
-            await LoadOrders();
-        }
-
-        private async void OrderDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (OrderGrid.SelectedItem is not OrderDto selected)
-            {
-                MessageBox.Show("Válassz ki egy rendelést.");
-                return;
-            }
-
-            var confirm = MessageBox.Show(
-                $"Biztos törlöd? (Id={selected.Id}, Name={selected.CustomerName})",
-                "Törlés",
-                MessageBoxButton.YesNo
-            );
-
-            if (confirm != MessageBoxResult.Yes)
-                return;
-
-            var ok = await _api.DeleteOrder(selected.Id);
-            if (!ok)
-            {
-                MessageBox.Show("Nem sikerült törölni.");
-                return;
-            }
-
-            OrderNameTextBox.Clear();
-            OrderEmailTextBox.Clear();
-            OrderPhoneTextBox.Clear();
-            OrderPostalCodeTextBox.Clear();
-            OrderCityTextBox.Clear();
-            OrderStreetTextBox.Clear();
-            OrderOtherTextBox.Clear();
-            OrderUserIdTextBox.Clear();
-            await LoadOrders();
-        }
-
-
-        //orderitem
-
-        private void OrderItemGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (OrderItemGrid.SelectedItem is OrderItemDto selected)
-            {
-                OrderItemItemPriceTextBox.Clear();
-                OrderItemPieceTextBox.Clear();
-            }
-        }
-
-        private async void OrderItemUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            if (OrderItemGrid.SelectedItem is not OrderItemDto selected)
-            {
-                MessageBox.Show("Válassz ki egy rendelés terméket.");
-                return;
-            }
-
-            var itempiece = OrderItemPieceTextBox.Text.Trim();
-            var itemprice = OrderItemItemPriceTextBox.Text.Trim();
-            if (string.IsNullOrWhiteSpace(itempiece))
-            {
-                MessageBox.Show("Adj meg egy db-ot.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(itemprice))
-            {
-                MessageBox.Show("Adj meg egy árat.");
-                return;
-            }
-            
-
-            var ok = await _api.UpdateOrderItem(selected.Id,Convert.ToInt32( itemprice),Convert.ToInt32( itempiece));
-            if (!ok)
-            {
-                MessageBox.Show("Nem sikerült módosítani.");
-                return;
-            }
-
-            await LoadOrderItems();
-        }
-
-        private async void OrderItemDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (OrderItemGrid.SelectedItem is not OrderItemDto selected)
-            {
-                MessageBox.Show("Válassz ki egy rendelés terméket.");
-                return;
-            }
-
-            var confirm = MessageBox.Show(
-                $"Biztos törlöd? (Id={selected.Id}, Name={selected.Order_Id})",
-                "Törlés",
-                MessageBoxButton.YesNo
-            );
-
-            if (confirm != MessageBoxResult.Yes)
-                return;
-
-            var ok = await _api.DeleteOrderItem(selected.Id);
-            if (!ok)
-            {
-                MessageBox.Show("Nem sikerült törölni.");
-                return;
-            }
-
-            OrderItemPieceTextBox.Clear();
-            OrderItemItemPriceTextBox.Clear();
-            await LoadOrderItems();
-        }
-
-        private async void OrderItemReload_Click(object sender, RoutedEventArgs e)
-        {
-            await LoadOrderItems();
-        }
 
 
         //globalsettings
-        
+
 
         private async void GlobalUpdate_Click(object sender, RoutedEventArgs e)
         {
@@ -903,37 +702,24 @@ namespace PizzArena_AdminPanel
             var globaldelivery = GlobalDeliveryTextBox.Text.Trim();
             var facebook = GlobalFacebookTextBox.Text.Trim();
             var instagram = GlobalInstagramTextBox.Text.Trim();
-            if (string.IsNullOrWhiteSpace(contactemail))
+
+            if (string.IsNullOrWhiteSpace(contactemail) || string.IsNullOrWhiteSpace(globaldelivery) ||
+                string.IsNullOrWhiteSpace(facebook) || string.IsNullOrWhiteSpace(instagram))
             {
-                MessageBox.Show("Adj meg egy kapcsolat tartási email-t.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(globaldelivery))
-            {
-                MessageBox.Show("Adj meg egy becsült szállítási időt.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(facebook))
-            {
-                MessageBox.Show("Adj meg egy facebook url-t.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(instagram))
-            {
-                MessageBox.Show("Adj meg egy instagram url-t.");
+                MessageBox.Show("Minden mezőt ki kell tölteni!");
                 return;
             }
 
-
-            var result = await _api.UpdateGlobalSettings(2, contactemail, globaldelivery, facebook, instagram);
+            var result = await _api.UpdateGlobalSettings(contactemail, globaldelivery, facebook, instagram);
 
             if (!result)
             {
-                MessageBox.Show("Nem sikerült módosítani.");
+                MessageBox.Show("Nem sikerült módosítani a beállításokat. Ellenőrizd a hálózatot vagy a jogosultságokat!");
                 return;
             }
 
             MessageBox.Show("Beállítások sikeresen frissítve!");
+
             await LoadGlobalSettings();
         }
 
@@ -941,6 +727,8 @@ namespace PizzArena_AdminPanel
         {
             await LoadGlobalSettings();
         }
+
+
 
         //chefspecial
 
@@ -1069,6 +857,20 @@ namespace PizzArena_AdminPanel
         private void SearchOrderItemTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             orderitemView?.Refresh();
+        }
+
+
+        //orders
+
+        private void OpenRestaurantOrders_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button?.Tag is RestaurantDto selectedRestaurant)
+            {
+                var ordersWindow = new RestaurantOrdersWindow(_api, selectedRestaurant);
+                ordersWindow.Owner = this; 
+                ordersWindow.ShowDialog();
+            }
         }
     }
 }

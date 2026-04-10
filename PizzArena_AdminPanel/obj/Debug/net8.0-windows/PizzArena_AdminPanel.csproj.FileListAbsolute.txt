@@ -5,7 +5,6 @@ C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\bin\De
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\bin\Debug\net8.0-windows\PizzArena_AdminPanel.pdb
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\App.g.cs
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\PizzArena_AdminPanel_MarkupCompile.cache
-C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\PizzArena_AdminPanel_MarkupCompile.lref
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\PizzArena_AdminPanel.g.resources
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\PizzArena_AdminPanel.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\PizzArena_AdminPanel.AssemblyInfoInputs.cache
@@ -21,3 +20,5 @@ C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\De
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\MainWindow.baml
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\AdminPanel.g.cs
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\AdminPanel.baml
+C:\Users\AutoWolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\RestaurantOrdersWindow.baml
+C:\Users\AutoWolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\RestaurantOrdersWindow.g.cs
