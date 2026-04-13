@@ -366,11 +366,11 @@ namespace PizzArena_AdminPanel.API
 
         public async Task<bool> UpdateOrderStatus(int id, int status)
         {
-            // A PATCH kérésnél csak a státusz kódját küldjük el JSON-ben
-            var json = JsonSerializer.Serialize(status);
+            var statusData = new { status = status };
+            var json = JsonSerializer.Serialize(statusData);
+
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // A kép alapján a végpont: api/Order/{id}/status
             var response = await _client.PatchAsync($"api/Order/{id}/status", content);
 
             return response.IsSuccessStatusCode;

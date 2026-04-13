@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PizzArena_AdminPanel.AdminPanel"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="PizzAréna - Adminisztrációs Központ" Height="750" Width="1200"
+        Title="PizzAréna" Height="750" Width="1200"
         WindowStartupLocation="CenterScreen" Background="#F3F4F6">
 
     <Window.Resources>
@@ -39,8 +39,8 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Background" Value="#FEF2F2"/>
-                                <Setter Property="Foreground" Value="#DC2626"/>
-                                <Setter Property="BorderBrush" Value="#DC2626"/>
+                                <Setter Property="Foreground" Value="Red"/>
+                                <Setter Property="BorderBrush" Value="Red"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -50,7 +50,7 @@
         </Style>
 
         <Style TargetType="Button">
-            <Setter Property="Background" Value="#DC2626"/>
+            <Setter Property="Background" Value="Red"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Height" Value="32"/>
@@ -101,10 +101,10 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Background="#F9FAFB" Grid.ColumnSpan="2">
-                    <Border Background="#DC2626" Padding="20">
+                    <Border Background="Red" Padding="20">
                         <TextBlock Text="PizzAréna" Foreground="White" FontSize="20" FontWeight="ExtraBold" HorizontalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="ADMINISZTRÁCIÓ" FontSize="11" FontWeight="Bold" Foreground="#9CA3AF" Margin="20,20,0,10"/>
+                    
                 </StackPanel>
 
                 <Border Grid.Column="2" VerticalAlignment="Top" Height="59" Background="White" BorderBrush="#F3F4F6" BorderThickness="0,0,0,1" RenderTransformOrigin="0.5,0.5">
@@ -116,7 +116,7 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Border.RenderTransform>
-                    <TextBlock Text="PizzAréna Rendszerfelügyelet v1.1 - Integrált Vezérlő" VerticalAlignment="Center" Margin="25,0" Foreground="#9CA3AF" FontStyle="Italic"/>
+                    <TextBlock Text="PizzAréna Admin felület" VerticalAlignment="Center" Margin="25,0" Foreground="#9CA3AF" FontStyle="Italic"/>
                 </Border>
 
                 <TabControl x:Name="MainTabControl" Grid.ColumnSpan="3" TabStripPlacement="Left" BorderThickness="0" Background="Transparent" Margin="0,110,0,0">
@@ -142,10 +142,10 @@
                                     <TextBox x:Name="ChefSpecialCustomNoteTextBox" Width="250" Tag="CustomNote"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Content="Reload" Click="ChefSpecialReload_Click" Background="#4B5563"/>
-                                    <Button Content="Add" Click="ChefSpecialAdd_Click" Background="#059669"/>
-                                    <Button Content="Update" Click="ChefSpecialUpdate_Click" Background="#2563EB"/>
-                                    <Button Content="Delete" Click="ChefSpecialtDelete_Click" Background="#DC2626"/>
+                                    <Button Content="Frissítés" Click="ChefSpecialReload_Click" Background="#4B5563"/>
+                                    <Button Content="Hozzáadás" Click="ChefSpecialAdd_Click" Background="#059669"/>
+                                    <Button Content="Módosítás" Click="ChefSpecialUpdate_Click" Background="#2563EB"/>
+                                    <Button Content="Törlés" Click="ChefSpecialtDelete_Click" Background="Red"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -170,8 +170,8 @@
                                 <TextBox x:Name="GlobalInstagramTextBox" Margin="0,0,0,15"/>
                             </StackPanel>
                             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,20,0,0">
-                                <Button Content="Reload" Click="GlobalReload_Click" Background="#4B5563"/>
-                                <Button Content="Update" Click="GlobalUpdate_Click" Background="#2563EB"/>
+                                <Button Content="Frissítés" Click="GlobalReload_Click" Background="#4B5563"/>
+                                <Button Content="Módosítás" Click="GlobalUpdate_Click" Background="#2563EB"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -226,10 +226,10 @@
                                     <TextBox x:Name="RestaurantcontactphoneTextBox" Width="100" Tag="Telefon"/>
                                 </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                                    <Button Content="Reload" Click="RestaurantReload_Click" Background="#4B5563"/>
-                                    <Button Content="Add" Click="RestaurantAdd_Click" Background="#059669"/>
-                                    <Button Content="Update" Click="RestaurantUpdate_Click" Background="#2563EB"/>
-                                    <Button Content="Delete" Click="RestaurantDelete_Click" Background="#DC2626"/>
+                                    <Button Content="Frissítés" Click="RestaurantReload_Click" Background="#4B5563"/>
+                                    <Button Content="Hozzáadás" Click="RestaurantAdd_Click" Background="#059669"/>
+                                    <Button Content="Módosítás" Click="RestaurantUpdate_Click" Background="#2563EB"/>
+                                    <Button Content="Törlés" Click="RestaurantDelete_Click" Background="Red"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -262,9 +262,9 @@
                                     <TextBox x:Name="UserPasswordTextBox" Width="120" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Content="Reload" Click="UserReload_Click" Background="#4B5563"/>
-                                    <Button Content="Add" Click="UserAdd_Click" Background="#059669"/>
-                                    <Button Content="Delete" Click="UserDelete_Click"/>
+                                    <Button Content="Frissítés" Click="UserReload_Click" Background="#4B5563"/>
+                                    <Button Content="Hozzáadás" Click="UserAdd_Click" Background="#059669"/>
+                                    <Button Content="Törlés" Click="UserDelete_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -303,10 +303,10 @@
                                     <TextBox x:Name="ProductCategoryIdTextBox" Width="70" />
                                 </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                                    <Button Content="Reload" Click="ProductReload_Click" Background="#4B5563"/>
-                                    <Button Content="Add" Click="ProductAdd_Click" Background="#059669"/>
-                                    <Button Content="Update" Click="ProductyUpdate_Click" Background="#2563EB"/>
-                                    <Button Content="Delete" Click="ProductDelete_Click"/>
+                                    <Button Content="Frissítés" Click="ProductReload_Click" Background="#4B5563"/>
+                                    <Button Content="Hozzáadás" Click="ProductAdd_Click" Background="#059669"/>
+                                    <Button Content="Módosítás" Click="ProductyUpdate_Click" Background="#2563EB"/>
+                                    <Button Content="Törlés" Click="ProductDelete_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -329,10 +329,10 @@
                             <StackPanel Grid.Row="2" Margin="0,20,0,0">
                                 <TextBox x:Name="CategoryNameTextBox" Width="300" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Content="Reload" Click="CategoryReload_Click" Background="#4B5563"/>
-                                    <Button Content="Add" Click="CategoryAdd_Click" Background="#059669"/>
-                                    <Button Content="Update" Click="CategoryUpdate_Click" Background="#2563EB"/>
-                                    <Button Content="Delete" Click="CategoryDelete_Click"/>
+                                    <Button Content="Frissítés" Click="CategoryReload_Click" Background="#4B5563"/>
+                                    <Button Content="Hozzáadás" Click="CategoryAdd_Click" Background="#059669"/>
+                                    <Button Content="Módosítás" Click="CategoryUpdate_Click" Background="#2563EB"/>
+                                    <Button Content="Törlés" Click="CategoryDelete_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

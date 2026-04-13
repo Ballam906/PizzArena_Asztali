@@ -57,14 +57,14 @@
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="#DC2626"/>
+        <Border Grid.Row="0" Background="Red"/>
 
         <Border Grid.RowSpan="2" Style="{StaticResource LoginCard}" Width="320">
             <StackPanel>
                 <TextBlock Text="PizzAréna" 
                            FontSize="28" 
                            FontWeight="ExtraBold" 
-                           Foreground="#DC2626" 
+                           Foreground="Red" 
                            HorizontalAlignment="Center" 
                            Margin="0,0,0,5"/>
                 <TextBlock Text="Adminisztrátori belépés" 
@@ -81,7 +81,7 @@
 
                 <Button Content="Bejelentkezés" 
                         Click="Button_Click"
-                        Background="#DC2626" 
+                        Background="Red" 
                         Foreground="White" 
                         Height="45" 
                         Margin="0,30,0,10" 

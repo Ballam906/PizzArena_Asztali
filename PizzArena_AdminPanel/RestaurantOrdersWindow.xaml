@@ -6,7 +6,7 @@
 
     <Window.Resources>
         <Style x:Key="RedButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#DC2626"/>
+            <Setter Property="Background" Value="Red"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Padding" Value="10,5"/>
@@ -20,13 +20,13 @@
         </Style>
 
         <Style TargetType="GroupBox">
-            <Setter Property="BorderBrush" Value="#FCA5A5"/>
+            <Setter Property="BorderBrush" Value="Wheat"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" Foreground="#991B1B" FontWeight="Bold" Margin="5,0"/>
+                        <TextBlock Text="{Binding}" Foreground="Red" FontWeight="Bold" Margin="5,0"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -43,7 +43,7 @@
             <DockPanel>
                 <Button DockPanel.Dock="Top" Content="Lista Frissítése" 
                         Click="ReloadOrders_Click" Style="{StaticResource RedButtonStyle}" 
-                        Background="#EF4444" Margin="0,0,0,10"/>
+                        Background="Red" Margin="0,0,0,10"/>
 
                 <DataGrid x:Name="OrdersGrid" SelectionChanged="OrdersGrid_SelectionChanged" 
                           AutoGenerateColumns="False" IsReadOnly="True"
@@ -58,7 +58,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border Background="#FEE2E2" CornerRadius="4" Padding="4,2">
-                                        <TextBlock Text="{Binding Status}" Foreground="#991B1B" 
+                                        <TextBlock Text="{Binding Status}" Foreground="Red" 
                                                    HorizontalAlignment="Center" FontWeight="Medium"/>
                                     </Border>
                                 </DataTemplate>
@@ -77,7 +77,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="0" Background="#7F1D1D" CornerRadius="5" Padding="15,10" Margin="0,0,0,10">
+                <Border Grid.Row="0" Background="Red" CornerRadius="5" Padding="15,10" Margin="0,0,0,10">
                     <StackPanel>
                         <TextBlock x:Name="CustomerInfoLabel" FontSize="16" FontWeight="Bold" 
                                    Text="Válasszon rendelést!" Foreground="White"/>
@@ -88,7 +88,7 @@
                 <DataGrid x:Name="OrderItemsGrid" Grid.Row="1" AutoGenerateColumns="False" 
                           IsReadOnly="True" BorderBrush="#FECACA" RowBackground="White">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Termék ID" Binding="{Binding ProductId}" Width="80"/>
+                        <DataGridTextColumn Header="Termék ID" Binding="{Binding Item_Id}" Width="80"/>
                         <DataGridTextColumn Header="Mennyiség" Binding="{Binding Piece}" Width="100"/>
                         <DataGridTextColumn Header="Egységár" Binding="{Binding ItemPrice, StringFormat={}{0} Ft}" Width="*"/>
                     </DataGrid.Columns>
@@ -100,20 +100,19 @@
                             <TextBlock Text="Új állapot:" VerticalAlignment="Center" 
                                        FontWeight="SemiBold" Foreground="#374151" Margin="0,0,10,0"/>
                             <ComboBox x:Name="StatusComboBox" Width="160" VerticalContentAlignment="Center">
-                                <ComboBoxItem Content="Függőben" Tag="0"/>
-                                <ComboBoxItem Content="Sütés alatt" Tag="1"/>
+                                <ComboBoxItem Content="Függőben" Tag="1"/>
                                 <ComboBoxItem Content="Kiszállítás alatt" Tag="2"/>
-                                <ComboBoxItem Content="Kész" Tag="3"/>
+                                <ComboBoxItem Content="Szállítva" Tag="3"/>
                                 <ComboBoxItem Content="Törölve" Tag="4"/>
                             </ComboBox>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button Content="Rendelés Törlése" Click="DeleteOrder_Click" 
-                                    Style="{StaticResource RedButtonStyle}" Background="#991B1B" 
+                                    Style="{StaticResource RedButtonStyle}" Background="Red" 
                                     Width="130" Margin="0,0,10,0"/>
                             <Button Content="Állapot Mentése" Click="UpdateStatus_Click" 
-                                    Style="{StaticResource RedButtonStyle}" Background="#B91C1C" 
+                                    Style="{StaticResource RedButtonStyle}" Background="Red" 
                                     Width="130"/>
                         </StackPanel>
                     </DockPanel>

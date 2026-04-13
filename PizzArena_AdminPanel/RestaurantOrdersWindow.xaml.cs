@@ -42,9 +42,9 @@ namespace PizzArena_AdminPanel
         {
             var allOrders = await _api.GetAllOrder();
             _orders.Clear();
-            foreach (var o in allOrders.Where(x => x.RestaurantId == _restaurant.Id))
+            foreach (var x in allOrders.Where(x => x.RestaurantId == _restaurant.Id))
             {
-                _orders.Add(o);
+                _orders.Add(x);
             }
         }
 
@@ -64,14 +64,12 @@ namespace PizzArena_AdminPanel
 
         private async void DeleteOrder_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Ellenőrizzük, hogy van-e kijelölt elem a bal oldali rácsban
             if (OrdersGrid.SelectedItem is not OrderDto selectedOrder)
             {
                 MessageBox.Show("Kérlek, válassz ki egy rendelést a törléshez!");
                 return;
             }
 
-            // 2. Megerősítő kérdés a felhasználónak
             var result = MessageBox.Show(
                 $"Biztosan törölni szeretnéd a(z) {selectedOrder.Id}. számú rendelést ({selectedOrder.CustomerName})?",
                 "Törlés megerősítése",
@@ -80,26 +78,22 @@ namespace PizzArena_AdminPanel
 
             if (result == MessageBoxResult.Yes)
             {
-                // 3. API hívás (a már meglévő DeleteOrder metódusoddal)
-                var success = await _api.DeleteOrder(selectedOrder.Id);
+                var res = await _api.DeleteOrder(selectedOrder.Id);
 
-                if (success)
+                if (res)
                 {
                     MessageBox.Show("Rendelés sikeresen törölve.");
 
-                    // 4. UI Takarítás: ürítjük a részletező mezőket és a tételeket
                     CustomerInfoLabel.Text = "Válasszon rendelést!";
                     AddressLabel.Text = "";
                     OrderItemsGrid.ItemsSource = null;
                     StatusComboBox.SelectedIndex = -1;
 
-                    // 5. Lista frissítése
                     LoadOrders();
                 }
                 else
                 {
-                    // Ha hiba történik (pl. adatbázis kényszer miatt nem törölhető)
-                    MessageBox.Show("Hiba történt a törlés során. Valószínűleg a rendeléshez még tartoznak tételek az adatbázisban.");
+                    MessageBox.Show("Hiba történt a törlés során.");
                 }
             }
         }
@@ -127,6 +121,4 @@ namespace PizzArena_AdminPanel
             }
         }
     }
-        
-    
 }

@@ -51,11 +51,7 @@ namespace PizzArena_AdminPanel
 
             _api = api;
             CategoryGrid.ItemsSource = _categories;
-            //ProductGrid.ItemsSource = _products;
-            //UsersGrid.ItemsSource = _users;
             RestaurantGrid.ItemsSource = _restaurants;
-            //OrderGrid.ItemsSource = _orders;
-            //OrderItemGrid.ItemsSource = _orderitems;
             ChefSpecialGrid.ItemsSource = _chefspecials;
 
             productView = CollectionViewSource.GetDefaultView(_products);
@@ -116,9 +112,6 @@ namespace PizzArena_AdminPanel
                 GlobalDeliveryTextBox.Text = settings.DeliveryTime;
                 GlobalFacebookTextBox.Text = settings.FacebookUrl;
                 GlobalInstagramTextBox.Text = settings.InstagramUrl;
-
-                // Ha mégis szükséged van az adatra máshol, mentsd el egy sima változóba:
-                // this._currentSettings = settings;
             }
             else
             {
@@ -481,12 +474,10 @@ namespace PizzArena_AdminPanel
 
             if (!ok)
             {
-                // Itt csak a letisztázott üzenet jelenik meg
                 MessageBox.Show(error, "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
-                return; // <--- MEGÁLLÍTJA a kódot, nem megy tovább a "Sikeres" ágra!
+                return; 
             }
 
-            // Csak akkor jutunk ide, ha tényleg OK volt a válasz
             MessageBox.Show("Felhasználó sikeresen létrehozva!", "Siker", MessageBoxButton.OK, MessageBoxImage.Information);
 
             UsernameTextBox.Clear();
