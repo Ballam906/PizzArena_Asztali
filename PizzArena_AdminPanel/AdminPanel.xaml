@@ -58,6 +58,7 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
+            
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="6"/>
@@ -119,10 +120,10 @@
                     <TextBlock Text="PizzAréna Admin felület" VerticalAlignment="Center" Margin="25,0" Foreground="#9CA3AF" FontStyle="Italic"/>
                 </Border>
 
-                <TabControl x:Name="MainTabControl" Grid.ColumnSpan="3" TabStripPlacement="Left" BorderThickness="0" Background="Transparent" Margin="0,110,0,0">
+                <TabControl x:Name="MainTabControl" Grid.ColumnSpan="3" TabStripPlacement="Left" BorderThickness="0" Background="Transparent" Margin="0,70,0,0">
 
                     <TabItem Header="Séf ajánlatok">
-                        <Grid Margin="40,20">
+                        <Grid Margin="45,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
@@ -138,7 +139,9 @@
                             </DataGrid>
                             <StackPanel Grid.Row="2" Margin="0,20,0,0">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                                    <Label Content="Termék Id:"></Label>
                                     <TextBox x:Name="ChefSpecialProductIdTextBox" Width="150" Tag="ProductId"/>
+                                    <Label Content="Megjegyzés:"></Label>
                                     <TextBox x:Name="ChefSpecialCustomNoteTextBox" Width="250" Tag="CustomNote"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -152,7 +155,7 @@
                     </TabItem>
 
                     <TabItem Header="Fő beállítások">
-                        <Grid Margin="40,20">
+                        <Grid Margin="45,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
@@ -177,7 +180,7 @@
                     </TabItem>
 
                     <TabItem Header="Rendelések">
-                        <Grid Margin="40,20">
+                        <Grid Margin="45,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
@@ -190,7 +193,7 @@
                                     <DataGridTemplateColumn Header="Művelet" Width="150">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Content="Rendelések" Click="OpenRestaurantOrders_Click" Tag="{Binding}" Background="#2563EB" Height="24" FontSize="11"/>
+                                                <Button Content="Rendelések" Click="OpenRestaurantOrders_Click" Tag="{Binding}" Background="Red" Height="24" FontSize="11"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -200,7 +203,7 @@
                     </TabItem>
 
                     <TabItem Header="Éttermek">
-                        <Grid Margin="40,20">
+                        <Grid Margin="45,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
@@ -218,12 +221,35 @@
                             </DataGrid>
                             <StackPanel Grid.Row="2" Margin="0,15,0,0">
                                 <WrapPanel HorizontalAlignment="Center">
-                                    <TextBox x:Name="RestaurantNameTextBox" Width="100" Tag="Név"/>
-                                    <TextBox x:Name="RestaurantDescriptionTextBox" Width="100" Tag="Leírás"/>
-                                    <TextBox x:Name="RestaurantimageUrlTextBox" Width="100" Tag="Kép URL"/>
-                                    <TextBox x:Name="RestaurantopeningHoursTextBox" Width="100" Tag="Nyitvatartás"/>
-                                    <TextBox x:Name="RestaurantaddressTextBox" Width="100" Tag="Cím"/>
-                                    <TextBox x:Name="RestaurantcontactphoneTextBox" Width="100" Tag="Telefon"/>
+                                    <StackPanel Margin="5">
+                                        <Label Content="Név:"/>
+                                        <TextBox x:Name="RestaurantNameTextBox" Width="120" Tag="Név"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Leírás:"/>
+                                        <TextBox x:Name="RestaurantDescriptionTextBox" Width="120" Tag="Leírás"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Kép URL:"/>
+                                        <TextBox x:Name="RestaurantimageUrlTextBox" Width="120" Tag="Kép URL"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Nyitva tartás:"/>
+                                        <TextBox x:Name="RestaurantopeningHoursTextBox" Width="120" Tag="Nyitvatartás"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Cím:"/>
+                                        <TextBox x:Name="RestaurantaddressTextBox" Width="120" Tag="Cím"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Telefonszám:"/>
+                                        <TextBox x:Name="RestaurantcontactphoneTextBox" Width="120" Tag="Telefon"/>
+                                    </StackPanel>
                                 </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                                     <Button Content="Frissítés" Click="RestaurantReload_Click" Background="#4B5563"/>
@@ -236,7 +262,7 @@
                     </TabItem>
 
                     <TabItem Header="Felhasználók">
-                        <Grid Margin="40,20">
+                        <Grid Margin="45,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -248,7 +274,7 @@
                                 <Label Content="Keresés:" VerticalAlignment="Center"/>
                                 <TextBox x:Name="SearchUserTextBox" Width="200" TextChanged="SearchUserTextBox_TextChanged"/>
                             </StackPanel>
-                            <DataGrid x:Name="UsersGrid" Grid.Row="2" SelectionChanged="UsersGrid_SelectionChanged">
+                            <DataGrid x:Name="UsersGrid" Grid.Row="2">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="200"/>
                                     <DataGridTextColumn Header="Felhasználónév" Binding="{Binding userName}" Width="150"/>
@@ -256,11 +282,22 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel Grid.Row="3" Margin="0,15,0,0">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                                    <TextBox x:Name="UsernameTextBox" Width="120" />
-                                    <TextBox x:Name="UserEmailTextbox" Width="150" />
-                                    <TextBox x:Name="UserPasswordTextBox" Width="120" />
-                                </StackPanel>
+                                <WrapPanel HorizontalAlignment="Center">
+                                    <StackPanel Margin="5">
+                                        <Label Content="Felhasználónév:"/>
+                                        <TextBox x:Name="UsernameTextBox" Width="120" Tag="Név"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Email:"/>
+                                        <TextBox x:Name="UserEmailTextbox" Width="120" Tag="Leírás"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Jelszó:"/>
+                                        <TextBox x:Name="UserPasswordTextBox" Width="120" Tag="Kép URL"/>
+                                    </StackPanel>
+                                </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button Content="Frissítés" Click="UserReload_Click" Background="#4B5563"/>
                                     <Button Content="Hozzáadás" Click="UserAdd_Click" Background="#059669"/>
@@ -271,7 +308,7 @@
                     </TabItem>
 
                     <TabItem Header="Termékek">
-                        <Grid Margin="40,20">
+                        <Grid Margin="45,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -295,12 +332,35 @@
                             </DataGrid>
                             <StackPanel Grid.Row="3" Margin="0,15,0,0">
                                 <WrapPanel HorizontalAlignment="Center">
-                                    <TextBox x:Name="ProductNameTextBox" Width="110" />
-                                    <TextBox x:Name="ProductDescriptionTextBox" Width="110" />
-                                    <TextBox x:Name="ProductPriceTextBox" Width="70" />
-                                    <TextBox x:Name="ProductIsAvailableTextBox" Width="70" />
-                                    <TextBox x:Name="ProductImageUrlTextBox" Width="110" />
-                                    <TextBox x:Name="ProductCategoryIdTextBox" Width="70" />
+                                    <StackPanel Margin="5">
+                                        <Label Content="Név:"/>
+                                        <TextBox x:Name="ProductNameTextBox" Width="120"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Leírás:"/>
+                                        <TextBox x:Name="ProductDescriptionTextBox" Width="120" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Ár:"/>
+                                        <TextBox x:Name="ProductPriceTextBox" Width="120" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Elérhető-e? :"/>
+                                        <TextBox x:Name="ProductIsAvailableTextBox" Width="120" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Kép URL:"/>
+                                        <TextBox x:Name="ProductImageUrlTextBox" Width="120" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5">
+                                        <Label Content="Kategória ID:"/>
+                                        <TextBox x:Name="ProductCategoryIdTextBox" Width="120" />
+                                    </StackPanel>
                                 </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                                     <Button Content="Frissítés" Click="ProductReload_Click" Background="#4B5563"/>
@@ -313,7 +373,7 @@
                     </TabItem>
 
                     <TabItem Header="Kategóriák">
-                        <Grid Margin="40,20">
+                        <Grid Margin="45,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
@@ -327,7 +387,12 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel Grid.Row="2" Margin="0,20,0,0">
-                                <TextBox x:Name="CategoryNameTextBox" Width="300" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <WrapPanel HorizontalAlignment="Center">
+                                    <StackPanel Margin="5">
+                                        <Label Content="Kategória név:"/>
+                                        <TextBox x:Name="CategoryNameTextBox" Width="120" Tag="Név"/>
+                                    </StackPanel>
+                                </WrapPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button Content="Frissítés" Click="CategoryReload_Click" Background="#4B5563"/>
                                     <Button Content="Hozzáadás" Click="CategoryAdd_Click" Background="#059669"/>

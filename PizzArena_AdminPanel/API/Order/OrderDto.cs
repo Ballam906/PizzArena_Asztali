@@ -23,5 +23,7 @@ namespace PizzArena_AdminPanel.API.Order
         public string User_Id { get; set; }
         public OrderStatus Status { get; set; } 
         public int RestaurantId { get; set; }
+
+        public string StatusHungarian => Status.ToHungarianString();
     }
 }

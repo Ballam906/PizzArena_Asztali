@@ -22,3 +22,4 @@ C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\De
 C:\Users\autowolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\AdminPanel.baml
 C:\Users\AutoWolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\RestaurantOrdersWindow.baml
 C:\Users\AutoWolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\obj\Debug\net8.0-windows\RestaurantOrdersWindow.g.cs
+C:\Users\AutoWolf\Documents\GitHub\PizzArena_Asztali\PizzArena_AdminPanel\bin\Debug\net8.0-windows\PizzArena_AdminPanel.dll.config

@@ -1,21 +1,23 @@
 ﻿using PizzArena_AdminPanel.API.Category;
+using PizzArena_AdminPanel.API.ChefSpecial;
+using PizzArena_AdminPanel.API.GlobalSettings;
 using PizzArena_AdminPanel.API.Login;
+using PizzArena_AdminPanel.API.Order;
+using PizzArena_AdminPanel.API.OrderItem;
+using PizzArena_AdminPanel.API.Product;
+using PizzArena_AdminPanel.API.Restaurant;
+using PizzArena_AdminPanel.API.User;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Net.Http.Headers;
-using PizzArena_AdminPanel.API.Product;
-using PizzArena_AdminPanel.API.User;
-using PizzArena_AdminPanel.API.Restaurant;
-using PizzArena_AdminPanel.API.Order;
-using PizzArena_AdminPanel.API.OrderItem;
-using PizzArena_AdminPanel.API.GlobalSettings;
-using PizzArena_AdminPanel.API.ChefSpecial;
-
+using System.Windows;
 
 namespace PizzArena_AdminPanel.API
 {
@@ -28,33 +30,48 @@ namespace PizzArena_AdminPanel.API
         public ApiService()
         {
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("https://localhost:7218/");
+            string baseUrl = ConfigurationManager.AppSettings["ApiUrl"];
+            
+            _client.BaseAddress = new Uri(baseUrl);
         }
 
 
         public async Task<LoginResponse?> Login(string userName, string password)
         {
-            var data = new { userName, password };
-            var json = JsonSerializer.Serialize(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync("api/User/loginadmin", content);
-            var body = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode) return null;
-
-            var result = JsonSerializer.Deserialize<LoginResponse>(body, _jsonOptions);
-
-            if (!string.IsNullOrEmpty(result?.Token))
+            try
             {
-                _client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", result.Token);
-            }
+                var data = new { userName, password };
+                var json = JsonSerializer.Serialize(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            return result;
+                var response = await _client.PostAsync("api/User/loginadmin", content);
+                var body = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var result = JsonSerializer.Deserialize<LoginResponse>(body, _jsonOptions);
+
+                if (!string.IsNullOrEmpty(result?.Token))
+                {
+                    _client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", result.Token);
+                }
+
+                return result;
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.Message,"Hálózati hiba",MessageBoxButton.OK,MessageBoxImage.Error);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Váratlan hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
 
-        //category -kesz
+        //category
 
         public async Task<List<CategoryDto>> GetAllCategories()
         {
@@ -102,7 +119,7 @@ namespace PizzArena_AdminPanel.API
             return response.IsSuccessStatusCode;
         }
 
-        //product - kész
+        //product
 
         public async Task<List<ProductDto>> GetAllProducts()
         {
@@ -149,7 +166,6 @@ namespace PizzArena_AdminPanel.API
         {
             var data = new
             {
-                id = id, 
                 name = name,
                 description = description,
                 price = price,
@@ -161,7 +177,7 @@ namespace PizzArena_AdminPanel.API
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync("api/Product", content);
+            var response = await _client.PutAsync($"api/Product/{id}", content);
 
             return response.IsSuccessStatusCode;
         }
@@ -173,7 +189,7 @@ namespace PizzArena_AdminPanel.API
         }
 
 
-        //user - kesz
+        //user
         public async Task<List<UserDto>> GetAllUsers()
         {
             var response = await _client.GetAsync("api/User/GetAllUser");
@@ -198,30 +214,9 @@ namespace PizzArena_AdminPanel.API
 
             return (false, string.IsNullOrWhiteSpace(body) ? "Ismeretlen hiba." : body);
         }
-
-        //public async Task<bool> CreateUser(string username, string email, string password)
-        //{
-        //    var data = new
-        //    {
-        //        userName = username,
-        //        email = email,
-        //        password = password
-        //    };
-
-
-        //    var json = JsonSerializer.Serialize(data);
-        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        //    var response = await _client.PostAsync("api/User/register", content);
-        //    var roleResponse = await _client.PostAsync(
-        //    $"api/User/assignrole?UserName={username}&RoleName=Admin",
-        //    null);
-        //    return response.IsSuccessStatusCode;
-        //}
-
         
 
-        public async Task<(bool ok, string error)> CreateUser(string username, string email, string password)
+        public async Task<(bool ok, string error)> CreateUserAdmin(string username, string email, string password)
         {
             var data = new { userName = username, email = email, password = password };
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
@@ -244,11 +239,27 @@ namespace PizzArena_AdminPanel.API
                 }
                 return (false, responseBody);
             }
+            else
+            {
+                var url = $"api/User/assignrole?UserName={Uri.EscapeDataString(username)}&RoleName=Admin";
+
+                var response2 = await _client.PostAsync(url, null);
+
+                if (response2.IsSuccessStatusCode)
+                {
+                    return (true, null);
+                }
+                else
+                {
+                    var error = await response2.Content.ReadAsStringAsync();
+                    return (false, $"Hiba jogosultság adásakor: {error}");
+                }
+            }
 
             return (true, null);
         }
 
-        //restaurant - kesz
+        //restaurant
         public async Task<List<RestaurantDto>> GetAllRestaurant()
         {
             var response = await _client.GetAsync("api/Restaurant");
@@ -292,7 +303,6 @@ namespace PizzArena_AdminPanel.API
         {
             var data = new
             {
-                Id = id, 
                 Name = name,
                 Description = description,
                 ImageUrl = imageUrl,
@@ -304,7 +314,7 @@ namespace PizzArena_AdminPanel.API
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync("api/Restaurant", content);
+            var response = await _client.PutAsync($"api/Restaurant/{id}", content);
             return response.IsSuccessStatusCode;
         }
 
@@ -314,7 +324,7 @@ namespace PizzArena_AdminPanel.API
             return response.IsSuccessStatusCode;
         }
 
-        //order - kesz
+        //order
 
         public async Task<List<OrderDto>> GetAllOrder()
         {
@@ -376,8 +386,7 @@ namespace PizzArena_AdminPanel.API
             return response.IsSuccessStatusCode;
         }
 
-
-        //orderitem - kesz
+        //orderitem
 
         public async Task<List<OrderItemDto>> GetOrderItemsByOrderId(int orderId)
         {
@@ -432,9 +441,6 @@ namespace PizzArena_AdminPanel.API
             return response.IsSuccessStatusCode;
         }
 
-
-
-
         //global settings
 
         public async Task<GlobalSettingsDto?> GetGlobalSettings()
@@ -465,7 +471,7 @@ namespace PizzArena_AdminPanel.API
             return response.IsSuccessStatusCode;
         }
 
-        //chefspecial - kesz
+        //chefspecial
 
         public async Task<List<ChefSpecialDto>> GetAllChefSpecial()
         {
@@ -506,7 +512,6 @@ namespace PizzArena_AdminPanel.API
         {
             var data = new
             {
-                Id = id, 
                 ProductId = productid,
                 CustomNote = customnote
             };
@@ -514,7 +519,7 @@ namespace PizzArena_AdminPanel.API
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync("api/ChefSpecial", content);
+            var response = await _client.PutAsync($"api/ChefSpecial/{id}", content);
             return response.IsSuccessStatusCode;
         }
 

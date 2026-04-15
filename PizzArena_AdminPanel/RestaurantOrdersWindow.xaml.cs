@@ -71,8 +71,8 @@ namespace PizzArena_AdminPanel
             }
 
             var result = MessageBox.Show(
-                $"Biztosan törölni szeretnéd a(z) {selectedOrder.Id}. számú rendelést ({selectedOrder.CustomerName})?",
-                "Törlés megerősítése",
+                $"Biztos törlöd a {selectedOrder.Id}. számú rendelést ({selectedOrder.CustomerName})?",
+                "Igen",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
 
@@ -82,7 +82,7 @@ namespace PizzArena_AdminPanel
 
                 if (res)
                 {
-                    MessageBox.Show("Rendelés sikeresen törölve.");
+                    MessageBox.Show("Rendelés törölve.");
 
                     CustomerInfoLabel.Text = "Válasszon rendelést!";
                     AddressLabel.Text = "";
@@ -93,7 +93,7 @@ namespace PizzArena_AdminPanel
                 }
                 else
                 {
-                    MessageBox.Show("Hiba történt a törlés során.");
+                    MessageBox.Show("Hiba a törlés során.");
                 }
             }
         }
@@ -115,7 +115,41 @@ namespace PizzArena_AdminPanel
                     }
                     else
                     {
-                        MessageBox.Show("Hiba történt a státusz frissítésekor.");
+                        MessageBox.Show("Hiba a státusz frissítésekor.");
+                    }
+                }
+            }
+        }
+
+        private async void UpdateQuantity_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = OrderItemsGrid.SelectedItem as dynamic;
+
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Kérlek, válassz ki egy sort a táblázatban!");
+                return;
+            }
+
+
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                $"Új mennyiség megadása:",
+                "Módosítás",
+                selectedItem.Piece.ToString());
+
+            if (int.TryParse(input, out int newQuantity) && newQuantity > 0)
+            {
+
+                bool success = await _api.PatchOrderItemQuantity(selectedItem.Id, newQuantity);
+
+                if (success)
+                {
+                    MessageBox.Show("Sikeres frissítés!");
+
+                    if (OrdersGrid.SelectedItem is OrderDto currentOrder)
+                    {
+                        var items = await _api.GetOrderItemsByOrderId(currentOrder.Id);
+                        OrderItemsGrid.ItemsSource = items;
                     }
                 }
             }

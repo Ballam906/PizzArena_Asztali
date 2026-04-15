@@ -53,7 +53,6 @@ namespace PizzArena_AdminPanel
             CategoryGrid.ItemsSource = _categories;
             RestaurantGrid.ItemsSource = _restaurants;
             ChefSpecialGrid.ItemsSource = _chefspecials;
-
             productView = CollectionViewSource.GetDefaultView(_products);
             ProductGrid.ItemsSource = productView;
             userView = CollectionViewSource.GetDefaultView(_users);
@@ -120,7 +119,6 @@ namespace PizzArena_AdminPanel
         }
 
 
-
         private async Task LoadOrders()
         {
             _orders.Clear();
@@ -145,7 +143,6 @@ namespace PizzArena_AdminPanel
 
             OrderRestaurantGrid.ItemsSource = _restaurants;
         }
-
 
         private async Task LoadUsers()
         {
@@ -182,10 +179,6 @@ namespace PizzArena_AdminPanel
 
 
         //categories
-
-
-
-
         private async void CategoryReload_Click(object sender, RoutedEventArgs e)
         {
             await LoadCategories();
@@ -269,12 +262,6 @@ namespace PizzArena_AdminPanel
             CategoryNameTextBox.Clear();
             await LoadCategories();
         }
-
-
-
-
-
-
 
         //product
 
@@ -443,10 +430,6 @@ namespace PizzArena_AdminPanel
 
         //user
 
-        private void UsersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
 
         private async void UserAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -470,7 +453,7 @@ namespace PizzArena_AdminPanel
             }
 
 
-            var (ok, error) = await _api.CreateUser(UsernameTextBox.Text, UserEmailTextbox.Text, UserPasswordTextBox.Text);
+            var (ok, error) = await _api.CreateUserAdmin(UsernameTextBox.Text, UserEmailTextbox.Text, UserPasswordTextBox.Text);
 
             if (!ok)
             {
@@ -681,11 +664,7 @@ namespace PizzArena_AdminPanel
             await LoadRestaurants();
         }
 
-
-
-
         //globalsettings
-
 
         private async void GlobalUpdate_Click(object sender, RoutedEventArgs e)
         {
@@ -718,8 +697,6 @@ namespace PizzArena_AdminPanel
         {
             await LoadGlobalSettings();
         }
-
-
 
         //chefspecial
 
@@ -829,6 +806,8 @@ namespace PizzArena_AdminPanel
             ChefSpecialCustomNoteTextBox.Clear();
             await LoadChefSpecials();
         }
+
+        //search
 
         private void SearchProductTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

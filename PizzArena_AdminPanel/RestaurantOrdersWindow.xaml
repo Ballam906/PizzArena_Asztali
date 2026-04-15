@@ -20,8 +20,6 @@
         </Style>
 
         <Style TargetType="GroupBox">
-            <Setter Property="BorderBrush" Value="Wheat"/>
-            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
@@ -58,7 +56,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border Background="#FEE2E2" CornerRadius="4" Padding="4,2">
-                                        <TextBlock Text="{Binding Status}" Foreground="Red" 
+                                        <TextBlock Text="{Binding StatusHungarian}" Foreground="Red" 
                                                    HorizontalAlignment="Center" FontWeight="Medium"/>
                                     </Border>
                                 </DataTemplate>
@@ -110,10 +108,13 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button Content="Rendelés Törlése" Click="DeleteOrder_Click" 
                                     Style="{StaticResource RedButtonStyle}" Background="Red" 
-                                    Width="130" Margin="0,0,10,0"/>
+                                    Width="110" Margin="0,0,10,0"/>
                             <Button Content="Állapot Mentése" Click="UpdateStatus_Click" 
                                     Style="{StaticResource RedButtonStyle}" Background="Red" 
-                                    Width="130"/>
+                                    Width="110" Margin="0,0,10,0"/>
+                            <Button Content="Mennyiség frissítése" Click="UpdateQuantity_Click" 
+                                    Style="{StaticResource RedButtonStyle}" Background="Red" 
+                                    Width="130"/>       
                         </StackPanel>
                     </DockPanel>
                 </Border>
