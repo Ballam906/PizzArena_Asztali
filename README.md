@@ -33,3 +33,5 @@ Az API URL-címének módosítása:
     # <appSettings>
     #   <add key="ApiUrl" value="http://ide-ird-az-uj-api-cimet.hu/api" />
     # </appSettings>
+
+# PizzAréna Github linkje: (https://github.com/Ballam906/PizzArena)
