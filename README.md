@@ -12,22 +12,23 @@ Ez egy .NET alapú asztali (WPF) alkalmazás, amellyel a PizzArénához tartozó
 # Telepítés és beállítás:
 
 1. Telepítő fájlok elérése
-  A telepítéshez szükséges setup.exe telepítőt itt találja:
-    PizzArena_Asztali\setup.exe
+  A telepítéshez szükséges mysetup.exe telepítőt itt találja:
+    PizzArena_Asztali\mysetup.exe
 
 2. Telepítés folyamata
    1. Futtassa a setup.exe fájlt a telepítő-varázsló elindításához.
    2. A varázsló lépésről lépésre vezeti végig a folyamaton:
-   3. Beállíthatja a telepítési útvonalat.
-   4. Megadhatja, hogy mely Windows-felhasználók érhessék el a programot.
-   5. A folyamat végén egy megerősítő ablak jelzi a sikeres telepítést.
+   3. Kiválaszthatja a telepítő nyelvét (angol,magyar)
+   4. Beállíthatja a telepítési útvonalat.
+   5. Megadhatja, hogy mely Windows-felhasználók érhessék el a programot.
+   6. A folyamat végén egy megerősítő ablak jelzi a sikeres telepítést.
 
 A telepítés befejezése után az alkalmazás automatikusan létrehoz egy parancsikont az asztalon, amellyel azonnal indítható az Admin Panel.
 
 # Beállítások (konfiguráció):
 Az alkalmazás rugalmassága érdekében az API elérési útvonala nincs a forráskódba égetve, így az bármikor módosítható.
 Az API URL-címének módosítása:
- 1. Keresse meg a telepítési könyvtárban az App.config fájlt.
+ 1. Keresse meg a telepítési könyvtárban a PizzArena_AdminPanel.dll.config fájlt.
  2. Nyissa meg a fájlt egy tetszőleges szövegszerkesztővel (pl. Notepad, VS Code).
  3. Keresse meg az <appSettings> szakaszt, és írja át az ApiUrl kulcs értékét:
     # <appSettings>
