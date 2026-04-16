@@ -88,7 +88,8 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Termék ID" Binding="{Binding Item_Id}" Width="80"/>
                         <DataGridTextColumn Header="Mennyiség" Binding="{Binding Piece}" Width="100"/>
-                        <DataGridTextColumn Header="Egységár" Binding="{Binding ItemPrice, StringFormat={}{0} Ft}" Width="*"/>
+                        <DataGridTextColumn Header="Egységár" Binding="{Binding ItemPrice, StringFormat={}{0} Ft}" Width="100"/>
+                        <DataGridTextColumn Header="Termék név" Binding="{Binding ItemName}" Width="150"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
 

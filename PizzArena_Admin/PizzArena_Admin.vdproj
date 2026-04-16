@@ -21,25 +21,25 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_50AC55BFC09A42C5865994C29C89420B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_59C90051D57A49B48CE5194E38C55E27"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_EB5FFD8C94C441A3A2B1C417E424D576"
+        "MsmKey" = "8:_7150085B6200477088E5B12AA58F91A8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_F2C113D72A0444D58028C62E4A5D4915"
+        "MsmKey" = "8:_DF389ED0525F4DF9A5B910761E9E6387"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB5FFD8C94C441A3A2B1C417E424D576"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -61,6 +61,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -77,6 +93,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -108,26 +140,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_50AC55BFC09A42C5865994C29C89420B"
-            {
-            "SourcePath" = "8:..\\PizzArena_AdminPanel\\bin\\Release\\net8.0-windows\\PizzArena_AdminPanel.exe"
-            "TargetName" = "8:PizzArena_AdminPanel.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_9F0F1620918E42869F564D018AE758DD"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_59C90051D57A49B48CE5194E38C55E27"
             {
             "SourcePath" = "8:..\\..\\..\\..\\Downloads\\icon.ico"
@@ -148,10 +160,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EB5FFD8C94C441A3A2B1C417E424D576"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7150085B6200477088E5B12AA58F91A8"
             {
-            "SourcePath" = "8:..\\PizzArena_AdminPanel\\App.config"
-            "TargetName" = "8:App.config"
+            "SourcePath" = "8:..\\PizzArena_AdminPanel\\bin\\Release\\net8.0-windows\\PizzArena_AdminPanel.deps.json"
+            "TargetName" = "8:PizzArena_AdminPanel.deps.json"
             "Tag" = "8:"
             "Folder" = "8:_9F0F1620918E42869F564D018AE758DD"
             "Condition" = "8:"
@@ -168,10 +180,30 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F2C113D72A0444D58028C62E4A5D4915"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DF389ED0525F4DF9A5B910761E9E6387"
             {
-            "SourcePath" = "8:..\\PizzArena_AdminPanel\\bin\\Release\\net8.0-windows\\PizzArena_AdminPanel.deps.json"
-            "TargetName" = "8:PizzArena_AdminPanel.deps.json"
+            "SourcePath" = "8:..\\PizzArena_AdminPanel\\bin\\Release\\net8.0-windows\\PizzArena_AdminPanel.exe"
+            "TargetName" = "8:PizzArena_AdminPanel.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_9F0F1620918E42869F564D018AE758DD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EB5FFD8C94C441A3A2B1C417E424D576"
+            {
+            "SourcePath" = "8:..\\PizzArena_AdminPanel\\App.config"
+            "TargetName" = "8:App.config"
             "Tag" = "8:"
             "Folder" = "8:_9F0F1620918E42869F564D018AE758DD"
             "Condition" = "8:"
@@ -245,7 +277,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PizzArena_Admin"
         "ProductCode" = "8:{F1153F8B-54FE-4D65-B521-86599BB803D4}"
-        "PackageCode" = "8:{751480C8-D66C-4CBB-9021-E7C8C2A8C04E}"
+        "PackageCode" = "8:{665EB8DC-5881-40D8-9672-58DEAEA483F1}"
         "UpgradeCode" = "8:{DDA9D59B-C42B-4330-BA99-A8E70F8C9560}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -365,15 +397,15 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4DD5219696A14484BFBC8A3711871E44"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9A606D55D99D44669AA0BF612EE8EE01"
             {
-            "Name" = "8:PizzArena_AdminPanel.exe"
+            "Name" = "8:PizzArenaAdmin.exe"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_50AC55BFC09A42C5865994C29C89420B"
+            "Target" = "8:_DF389ED0525F4DF9A5B910761E9E6387"
             "Folder" = "8:_2115F15FB54142D987F22F7A0E5E67D2"
             "WorkingFolder" = "8:_9F0F1620918E42869F564D018AE758DD"
             "Icon" = "8:_59C90051D57A49B48CE5194E38C55E27"
