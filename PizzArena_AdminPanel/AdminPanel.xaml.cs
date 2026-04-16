@@ -704,6 +704,11 @@ namespace PizzArena_AdminPanel
         {
             if (ChefSpecialGrid.SelectedItem is ChefSpecialDto selected)
             {
+                ChefSpecialProductIdTextBox.Text = selected.ProductId.ToString();
+                ChefSpecialCustomNoteTextBox.Text = selected.CustomNote;
+            }
+            else
+            {
                 ChefSpecialProductIdTextBox.Clear();
                 ChefSpecialCustomNoteTextBox.Clear();
             }
