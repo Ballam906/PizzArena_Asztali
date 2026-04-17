@@ -14,7 +14,8 @@ namespace PizzArena_AdminPanel.API.OrderItem
         public int ItemPrice { get; set; }
         public int Piece { get; set; }
         public int Order_Id { get; set; }
-        public int Item_Id { get; set; }
+        public int? Item_Id { get; set; }
         public string ItemName { get; set; }
+
     }
 }
