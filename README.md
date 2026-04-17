@@ -1,5 +1,5 @@
 ![.NET Version](https://img.shields.io/badge/.NET-8.0-blueviolet)
-# PizzArena Admin Panel
+# PizzAréna Admin Panel
 
 Ez egy .NET alapú asztali (WPF) alkalmazás, amellyel a PizzArénához tartozó adatok kezelhetőek. Az alkalmazás egy elkülönített ASP.NET Core Web API-hoz csatlakozik, biztosítva a biztonságos és gyors adatkezelést.
 
@@ -30,10 +30,7 @@ Az alkalmazás rugalmassága érdekében az API elérési útvonala nincs a forr
 Az API URL-címének módosítása:
  1. Keresse meg a telepítési könyvtárban a PizzArena_AdminPanel.dll.config fájlt.
  2. Nyissa meg a fájlt egy tetszőleges szövegszerkesztővel (pl. Notepad, VS Code).
- 3. Keresse meg az <appSettings> szakaszt, és írja át az ApiUrl kulcs értékét:
-    # <appSettings>
-    #   <add key="ApiUrl" value="http://ide-ird-az-uj-api-cimet.hu/api" />
-    # </appSettings>
+ 3. Keresse meg az appSettings szakaszt, és írja át az ApiUrl kulcs értékét
 
 # PizzAréna Github linkje: 
 (https://github.com/Ballam906/PizzArena)
