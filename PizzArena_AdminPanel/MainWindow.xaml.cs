@@ -36,8 +36,8 @@ namespace PizzArena_AdminPanel
             if (string.IsNullOrEmpty(baseUrl))
             {
                 MessageBox.Show(
-                    "Hiba: Az API elérési útvonala (ApiBaseUrl) nincs beállítva a konfigurációs fájlban!\n\n" +
-                    "Kérjük, ellenőrizze a PizzArena_AdminPanel.exe.config fájlt.",
+                    "Hiba: Az API elérési útvonala (ApiUrl) nincs beállítva a konfigurációs fájlban!\n\n" +
+                    "Kérjük, ellenőrizze a PizzArena_AdminPanel.dll.config fájlt.",
                     "Konfigurációs hiba",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
