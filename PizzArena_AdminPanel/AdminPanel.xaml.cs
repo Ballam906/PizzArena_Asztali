@@ -514,6 +514,7 @@ namespace PizzArena_AdminPanel
                 RestaurantimageUrlTextBox.Text = selected.imageUrl;
                 RestaurantopeningHoursTextBox.Text = selected.openingHours;
                 RestaurantaddressTextBox.Text = selected.address;
+                RestaurantcontactphoneTextBox.Text = selected.contactPhone;
             }
         }
 
